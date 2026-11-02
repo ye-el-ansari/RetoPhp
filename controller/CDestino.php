@@ -1,0 +1,78 @@
+<?php
+
+require_once __DIR__ . '/../db/Conectar.php';
+require_once __DIR__ . '/CProducto.php';
+require_once __DIR__ . '/CLogin.php';
+
+class CDestino
+{
+
+    static $controller = null;
+
+    public static function enrutar()
+    {
+        // 1. Capturamos la acción de la URL (si no hay, por defecto es 'ver caballeros')
+        $entity = isset($_GET['entity']) ? $_GET['entity'] : 'usuario';
+        $action = isset($_GET['action']) ? $_GET['action'] : 'index';
+        
+
+        $id = isset($_GET['id']) ? $_GET['id'] : null;
+
+
+        switch ($entity) {
+            case 'caballero':
+                $controller = new CCaballero();
+                break;
+            case 'escudo':
+                $controller = new CEscudo();
+                break;
+            case 'arma':
+                $controller = new CArma();
+                break;
+            case 'usuario':
+                $controller = new CLogin();
+                break;
+        }
+
+
+        // 2. Evaluamos qué quiere hacer el usuario
+        switch ($action) {
+            case 'index':
+                $controller->index();
+                break; //  El break evita que se ejecuten los siguientes casos
+
+            case 'login':
+                $controller->login();
+                break; //  El break evita que se ejecuten los siguientes casos
+
+            case 'show':
+                $controller->show($id); // Le pasamos el ID si lo necesita
+                break;
+
+            case 'create':
+                $controller->create();
+                break;
+
+            case 'store':
+                $controller->store();
+                break;
+
+            case 'destroy':
+                $controller->destroy($id);
+                break;
+
+            case 'edit':
+                $controller->edit($id);
+                break;
+            case 'update':
+                $controller->update($id);
+                break;
+
+
+            default:
+                // Si ponen una acción que no existe, los mandamos al listado por seguridad
+                header("Location: index.php?action=index");
+                break;
+        }
+    }
+}
