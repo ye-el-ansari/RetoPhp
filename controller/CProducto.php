@@ -58,15 +58,12 @@ class CProducto
         exit();
     }
 
-/*
+
     public function edit($id)
     {
-        $this->modelArma = new MArma();
-        $this->modelEscudo = new MEscudo();
-        $arma = $this->modelArma->getAll();
-        $escudo = $this->modelEscudo->getAll();
+
         $producto = $this->model->getById($id);
-        require_once __DIR__ . "/../view/VProductoModificar.php";
+        require_once __DIR__ . "/../view/productos/VProductoModificar.php";
     }
 
 
@@ -74,26 +71,37 @@ class CProducto
     {
 
         $nombre = isset($_POST['nombre']) ? $_POST['nombre'] : null;
-        $fuerza = isset($_POST['fuerza']) ? $_POST['fuerza'] : null;
+        $categoria = isset($_POST['categoria']) ? $_POST['categoria'] : null;
 
-        $nivel = isset($_POST['nivel']) ? $_POST['nivel'] : null;
+        $marca = isset($_POST['marca']) ? $_POST['marca'] : null;
 
-        $arma = isset($_POST['arma']) ? $_POST['arma'] : null;
-        $escudo = isset($_POST['escudo']) ? $_POST['escudo'] : null;
+        $modelo = isset($_POST['modelo']) ? $_POST['modelo'] : null;
+        $precio = isset($_POST['precio']) ? $_POST['precio'] : null;
+
+          $stock = isset($_POST['stock']) ? $_POST['stock'] : null;
+            $peso = isset($_POST['peso']) ? $_POST['peso'] : null;
+              $alto = isset($_POST['altura']) ? $_POST['altura'] : null;
+                $ancho = isset($_POST['ancho']) ? $_POST['ancho'] : null;
+                  $profundidad = isset($_POST['profundidad']) ? $_POST['profundidad'] : null;
 
         $this->model->update(
             $id,
             $nombre,
-            $fuerza,
-            $nivel,
-            $arma,
-            $escudo
+            $categoria,
+            $marca,
+            $modelo,
+            $precio, 
+            $stock, 
+            $peso, 
+            $alto, 
+            $ancho, 
+            $profundidad
         );
 
         header("Location: index.php?entity=producto&action=index");
         exit();
     }
-*/
+
 
     public function destroy($id)
     {

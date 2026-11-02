@@ -52,13 +52,15 @@ class CDestino
             case 'destroy':
                 $controller->destroy($id);
                 break;
-            /*
+            
              case 'edit':
                  $controller->edit($id);
                  break;
+
+                 
              case 'update':
                  $controller->update($id);
-                 break; */
+                 break; 
 
 
             default:

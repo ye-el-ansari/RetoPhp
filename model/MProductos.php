@@ -87,17 +87,30 @@ class MProductos
     }
 
     public function update(
-        $id_producto,
+        $id,
         $nombre,
         $categoria,
         $marca,
         $modelo,
         $precio,
-        $stock
+        $stock,
+
+        
+        $peso,
+        $alto,
+        $ancho,
+        $profundidad
     ) {
-        $consulta = $this->db->prepare('UPDATE productos SET nombre = ?, precio = ?, descripcion = ? WHERE id_producto = ?');
-        $consulta->bind_param('siii', $nombre, $precio, $descripcion, $id_producto);
+        $consulta = $this->db->prepare('UPDATE productos SET nombre = ?, categoria = ?, marca = ?, modelo = ?, precio = ?, stock = ? WHERE id_producto = ?');
+        $consulta->bind_param('ssssdii', $nombre, $categoria, $marca, $modelo, $precio, $stock, $id);
         $consulta->execute();
+
+
+        $consultaDetalles = $this->db->prepare('UPDATE detalles_producto SET peso = ?, alto = ?, ancho = ?, profundidad = ? WHERE id_producto = ?');
+        $consultaDetalles->bind_param('ddddi', $peso, $alto, $ancho, $profundidad, $id);
+        $consultaDetalles->execute();   
+
+       
     }
 
 
@@ -115,26 +128,26 @@ class MProductos
         $ancho,
         $profundidad
     ) {
-        
 
-            // 1. Insertar en la tabla principal
-            $consulta = $this->db->prepare(
-                'INSERT INTO productos (nombre, categoria, marca, modelo, precio, stock)
+
+        // 1. Insertar en la tabla principal
+        $consulta = $this->db->prepare(
+            'INSERT INTO productos (nombre, categoria, marca, modelo, precio, stock)
              VALUES (?, ?, ?, ?, ?, ?)'
-            );
-            $consulta->bind_param('ssssdi', $nombre, $categoria, $marca, $modelo, $precio, $stock);
-            $consulta->execute();
+        );
+        $consulta->bind_param('ssssdi', $nombre, $categoria, $marca, $modelo, $precio, $stock);
+        $consulta->execute();
 
-            // 2. Recuperar el id del producto insertado
-            $id_producto = $this->db->insert_id;
-            $consulta->close();
+        // 2. Recuperar el id del producto insertado
+        $id_producto = $this->db->insert_id;
+        $consulta->close();
 
-            // 3. Insertar en la tabla secundaria
-            $this->storeDetalles($id_producto, $peso, $alto, $ancho, $profundidad);
+        // 3. Insertar en la tabla secundaria
+        $this->storeDetalles($id_producto, $peso, $alto, $ancho, $profundidad);
 
-            return true;
+        return true;
 
-    
+
     }
 
     public function storeDetalles($id_producto, $peso, $alto, $ancho, $profundidad)
