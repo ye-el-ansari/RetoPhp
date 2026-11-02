@@ -22,32 +22,41 @@ class MProductos
     }
 
 
-    /* public function getById($id)
+    public function getById($id)
     {
-
+        // Corrección: Se añaden las comillas correspondientes al string de la consulta SQL
         $consulta = $this->db->prepare("SELECT 
-            caballero.nombre as caballeroNombre,
-            caballero.id_caballero as caballeroId,
-            caballero.fuerza as caballeroFuerza,
-            caballero.nivel as caballeroNivel,
-            arma.tipo as armaTipo,
-            escudo.tipo as escudoTipo,
-            escudo.id_escudo as escudoId,
-            arma.id_arma as armaId
+            productos.nombre as productoNombre, 
+            productos.id_producto as productoId, 
+            productos.categoria as productoCategoria, 
+            productos.marca as productoMarca, 
+            productos.modelo as productoModelo, 
+            productos.precio as productoPrecio, 
+            productos.stock as productoStock, 
+            detalles_producto.peso as productoPeso, 
+            detalles_producto.alto as productoAlto, 
+            detalles_producto.ancho as productoAncho, 
+            detalles_producto.profundidad as productoProfundidad 
+        FROM productos 
+        INNER JOIN detalles_producto ON productos.id_producto = detalles_producto.id_producto 
+        WHERE productos.id_producto = ?
+    ");
 
-            FROM caballero INNER JOIN escudo
-            ON caballero.id_escudo = escudo.id_escudo
-            INNER JOIN arma ON caballero.id_arma = arma.id_arma
-            WHERE caballero.id_caballero = ?");
-
-        $consulta->bind_param('i', $id);
+        $consulta->bind_param("i", $id);
         $consulta->execute();
 
-        // recoger los datos que vienen siendo ejecutado con el prepare + bind
-        $resultado = $consulta->get_result(); //importante usar el get result aqui.
-        return $resultado->fetch_assoc();
+        $resultado = $consulta->get_result();
+
+        // Almacenamos el array asociativo en una variable
+        $producto = $resultado->fetch_assoc();
+
+        // Buena práctica: Cerrar la consulta para liberar memoria
+        $consulta->close();
+
+        // Retorna el array con los datos o null si no se encontró el producto
+        return $producto;
     }
- */
+
 
     public function getAll()
     {
@@ -84,7 +93,7 @@ class MProductos
         $marca,
         $modelo,
         $precio,
-        $stock 
+        $stock
     ) {
         $consulta = $this->db->prepare('UPDATE productos SET nombre = ?, precio = ?, descripcion = ? WHERE id_producto = ?');
         $consulta->bind_param('siii', $nombre, $precio, $descripcion, $id_producto);
@@ -96,34 +105,59 @@ class MProductos
 
     public function store(
         $nombre,
+        $categoria,
+        $marca,
+        $modelo,
         $precio,
-        $descripcion
+        $stock,
+        $peso,
+        $alto,
+        $ancho,
+        $profundidad
     ) {
-        $consulta = $this->db->prepare('INSERT INTO productos (nombre, precio, descripcion) VALUES (?, ?, ?)');
-        $consulta->bind_param('siii', $nombre, $precio, $descripcion);
-        $consulta->execute();
+        
+
+            // 1. Insertar en la tabla principal
+            $consulta = $this->db->prepare(
+                'INSERT INTO productos (nombre, categoria, marca, modelo, precio, stock)
+             VALUES (?, ?, ?, ?, ?, ?)'
+            );
+            $consulta->bind_param('ssssdi', $nombre, $categoria, $marca, $modelo, $precio, $stock);
+            $consulta->execute();
+
+            // 2. Recuperar el id del producto insertado
+            $id_producto = $this->db->insert_id;
+            $consulta->close();
+
+            // 3. Insertar en la tabla secundaria
+            $this->storeDetalles($id_producto, $peso, $alto, $ancho, $profundidad);
+
+            return true;
+
+    
     }
 
-
-
-    public function store(
-        $nombre,
-        $fuerza,
-        $nivel,
-        $id_arma,
-        $id_escudo
-    ) {
-        $consulta = $this->db->prepare('INSERT INTO caballero ( nombre, fuerza, nivel, id_arma, id_escudo) VALUES (?, ?, ?, ?, ?)');
-
-        $consulta->bind_param(
-            'siiii',
-            $nombre,
-            $fuerza,
-            $nivel,
-            $id_arma,
-            $id_escudo
+    public function storeDetalles($id_producto, $peso, $alto, $ancho, $profundidad)
+    {
+        $consulta = $this->db->prepare(
+            'INSERT INTO detalles_producto (id_producto, peso, alto, ancho, profundidad)
+         VALUES (?, ?, ?, ?, ?)'
         );
 
-        $consulta->execute();
+        if (!$consulta) {
+            // Esto se ejecutará si falló el prepare (ej: columna mal escrita o tabla inexistente)
+            die("Error en la estructura/Prepare de Detalles: " . $this->db->error);
+        }
+
+        $consulta->bind_param('idddd', $id_producto, $peso, $alto, $ancho, $profundidad);
+
+        if (!$consulta->execute()) {
+            // Esto se ejecutará si falló el execute (ej: error de llave foránea, tipos de datos vacíos)
+            die("Error al ejecutar la inserción en Detalles: " . $consulta->error);
+        }
+
+        $consulta->close();
     }
+
+
 }

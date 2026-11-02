@@ -96,7 +96,7 @@ CREATE TABLE pedidos (
         FOREIGN KEY (id_usuario)
         REFERENCES usuarios(id_usuario)
         ON UPDATE CASCADE
-        ON DELETE RESTRICT
+        ON DELETE CASCADE   -- antes: RESTRICT
 );
 
 
@@ -121,7 +121,7 @@ CREATE TABLE detalles_pedido (
         FOREIGN KEY (id_producto)
         REFERENCES productos(id_producto)
         ON UPDATE CASCADE
-        ON DELETE RESTRICT,
+        ON DELETE CASCADE,  -- antes: RESTRICT
 
     CONSTRAINT chk_detalle_cantidad
         CHECK (cantidad > 0),
@@ -132,7 +132,6 @@ CREATE TABLE detalles_pedido (
     CONSTRAINT uq_pedido_producto
         UNIQUE (id_pedido, id_producto)
 );
-
 
 -- ============================================
 -- INSERCIONES: USUARIOS (4 REGISTROS)

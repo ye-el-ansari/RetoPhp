@@ -2,7 +2,7 @@
 
 require_once __DIR__ . '/../db/Conectar.php';
 require_once __DIR__ . '/CProducto.php';
-require_once __DIR__ . '/CLogin.php';
+// require_once __DIR__ . '/CLogin.php';
 
 class CDestino
 {
@@ -12,26 +12,18 @@ class CDestino
     public static function enrutar()
     {
         // 1. Capturamos la acción de la URL (si no hay, por defecto es 'ver caballeros')
-        $entity = isset($_GET['entity']) ? $_GET['entity'] : 'usuario';
+        $entity = isset($_GET['entity']) ? $_GET['entity'] : 'producto';
         $action = isset($_GET['action']) ? $_GET['action'] : 'index';
-        
+
 
         $id = isset($_GET['id']) ? $_GET['id'] : null;
 
 
         switch ($entity) {
-            case 'caballero':
-                $controller = new CCaballero();
+            case 'producto':
+                $controller = new CProducto();
                 break;
-            case 'escudo':
-                $controller = new CEscudo();
-                break;
-            case 'arma':
-                $controller = new CArma();
-                break;
-            case 'usuario':
-                $controller = new CLogin();
-                break;
+
         }
 
 
@@ -41,17 +33,17 @@ class CDestino
                 $controller->index();
                 break; //  El break evita que se ejecuten los siguientes casos
 
-            case 'login':
-                $controller->login();
-                break; //  El break evita que se ejecuten los siguientes casos
-
             case 'show':
-                $controller->show($id); // Le pasamos el ID si lo necesita
+                $controller->show($id);
                 break;
-
             case 'create':
                 $controller->create();
                 break;
+            /* 
+            case 'login':
+                 $controller->login();
+                 break; 
+  */
 
             case 'store':
                 $controller->store();
@@ -60,13 +52,13 @@ class CDestino
             case 'destroy':
                 $controller->destroy($id);
                 break;
-
-            case 'edit':
-                $controller->edit($id);
-                break;
-            case 'update':
-                $controller->update($id);
-                break;
+            /*
+             case 'edit':
+                 $controller->edit($id);
+                 break;
+             case 'update':
+                 $controller->update($id);
+                 break; */
 
 
             default:
