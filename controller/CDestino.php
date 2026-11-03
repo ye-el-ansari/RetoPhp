@@ -2,6 +2,7 @@
 
 require_once __DIR__ . '/../db/Conectar.php';
 require_once __DIR__ . '/CProducto.php';
+require_once __DIR__ . '/CPedido.php';
 // require_once __DIR__ . '/CLogin.php';
 
 class CDestino
@@ -23,7 +24,9 @@ class CDestino
             case 'producto':
                 $controller = new CProducto();
                 break;
-
+            case 'pedido':
+                $controller =new CPedido();
+                break;
         }
 
 

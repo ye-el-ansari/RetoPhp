@@ -23,16 +23,13 @@
         <table class="table table-striped table-bordered">
             <thead class="bg-dark text-white">
                 <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Nombre</th>
-                    <th scope="col">Categoría</th>
-                    <th scope="col">Marca</th>
-                    <th scope="col">Modelo</th>
+                    <th scope="col">Numero del pedido</th>
+                    <th scope="col">Nombre del producto</th>
+                    <th scope="col">Usuario</th>
+                    <th scope="col">Cantidad</th>
                     <th scope="col">Precio</th>
-                    <th scope="col">Stock</th>
-                    <!--<th scope="col">Arma</th>
-                     <th scope="col">Escudo</th> -->
-                     
+                    <th scope="col">Estado</th>
+                    <th scope="col">Fecha</th>
                      <th scope="col">Acciones</th>
                 </tr>
             </thead>
