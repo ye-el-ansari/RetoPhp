@@ -25,7 +25,7 @@ class CDestino
                 $controller = new CProducto();
                 break;
             case 'pedido':
-                $controller =new CPedido();
+                $controller = new CPedido();
                 break;
         }
 

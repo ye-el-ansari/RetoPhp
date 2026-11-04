@@ -61,11 +61,6 @@ class MProductos
     public function getAll()
     {
 
-        // 1. Verificamos si la conexión existe
-        if (!$this->db) {
-            die("Error: No hay conexión a la base de datos.");
-        }
-
         $consulta = $this->db->query("SELECT * FROM productos");
 
 
