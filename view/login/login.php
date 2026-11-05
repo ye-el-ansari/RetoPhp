@@ -21,7 +21,7 @@
             <div class="card shadow">
                 <div class="card-body">
                     <h2 class="card-title text-center mb-4">Iniciar Sesión</h2>
-                    <form action="index.php?entity=usuario&action=login" method="POST">
+                    <form action="index.php?action=login" method="POST">
                         <div class="mb-3">
                             <label for="usuario" class="form-label">Nombre de usuario</label>
                             <input type="text" class="form-control" id="usuario" name="usuario" required>
@@ -38,8 +38,8 @@
             </div>
         </div>
     </div>
-    <p>Usuarios: admin, admin2</p>
-    <p> Pass: del 1 al 8</p>
+    <p>Usuarios: Carlos, Laura, Javier, Ana</p>
+    <p> Pass: del 1 al 4</p>
 
     </div>
 </body>

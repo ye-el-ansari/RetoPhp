@@ -11,7 +11,7 @@
     
     public function hasPermission($usuario, $contrasena)
     {
-        $consulta = $this->db->prepare("SELECT * FROM usuarios WHERE usuario = ?");
+        $consulta = $this->db->prepare("SELECT * FROM usuarios WHERE nombre = ?");
 
         $consulta->bind_param('s', $usuario);
 
@@ -23,7 +23,7 @@
 
         $usuarioEncontrado = $resultado->fetch_assoc();
         
-        if ($usuarioEncontrado && password_verify($contrasena, $usuarioEncontrado['contrasenia'])) {
+        if ($usuarioEncontrado && 0==strcmp($contrasena, $usuarioEncontrado['contrasenia'])) {
 
             // Si todo coincide, devolvemos el array con los datos del usuario
             return $usuarioEncontrado;
