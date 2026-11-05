@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . "/../model/MPedidos.php";
+require_once __DIR__ . "/../model/MProductos.php";
 class CPedido
 {
     private MPedidos $model;
@@ -24,4 +25,17 @@ class CPedido
         echo "</pre>";
         require_once __DIR__ . "/../view/pedidos/VPedidoVer.php";
     }
+
+     public function edit($id)
+    {
+
+        $data = $this->model->getDetalleById($id);
+        
+        echo "<pre>";
+        print_r($data);
+        echo "</pre>";
+
+        require_once __DIR__ . "/../view/pedidos/VPedidoModificar.php";
+    }
+
 }
