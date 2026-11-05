@@ -18,6 +18,8 @@ USE tienda_informatica;
 CREATE TABLE usuarios (
     id_usuario INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(80) NOT NULL,
+    rol VARCHAR NOT NULL,
+    contrasenia VARCHAR(80) NOT NULL,
     apellidos VARCHAR(120) NOT NULL,
     email VARCHAR(150) NOT NULL UNIQUE,
     telefono VARCHAR(20),
@@ -140,10 +142,10 @@ CREATE TABLE detalles_pedido (
 INSERT INTO usuarios
 (id_usuario, nombre, apellidos, email, telefono)
 VALUES
-(1, 'Carlos', 'Garcia Lopez', 'carlos@gmail.com', '600123456'),
-(2, 'Laura', 'Martinez Perez', 'laura@gmail.com', '611234567'),
-(3, 'Javier', 'Sanchez Ruiz', 'javier@gmail.com', '622345678'),
-(4, 'Ana', 'Fernandez Diaz', 'ana@gmail.com', '633456789');
+(1, 'Carlos', 1, '1234', 'Garcia Lopez', 'carlos@gmail.com', '600123456'),
+(2, 'Laura', 0, '1234','Martinez Perez', 'laura@gmail.com', '611234567'),
+(3, 'Javier', 1, '1234', 'Sanchez Ruiz', 'javier@gmail.com', '622345678'),
+(4, 'Ana', 1, '1234', 'Fernandez Diaz', 'ana@gmail.com', '633456789');
 
 
 -- ============================================

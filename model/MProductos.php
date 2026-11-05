@@ -89,8 +89,6 @@ class MProductos
         $modelo,
         $precio,
         $stock,
-
-        
         $peso,
         $alto,
         $ancho,
