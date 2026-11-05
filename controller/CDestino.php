@@ -3,7 +3,7 @@
 require_once __DIR__ . '/../db/Conectar.php';
 require_once __DIR__ . '/CProducto.php';
 require_once __DIR__ . '/CPedido.php';
-// require_once __DIR__ . '/CLogin.php';
+require_once __DIR__ . '/CLogin.php';
 
 class CDestino
 {
@@ -13,7 +13,7 @@ class CDestino
     public static function enrutar()
     {
         // 1. Capturamos la acción de la URL (si no hay, por defecto es 'ver caballeros')
-        $entity = isset($_GET['entity']) ? $_GET['entity'] : 'producto';
+        $entity = isset($_GET['entity']) ? $_GET['entity'] : 'login';
         $action = isset($_GET['action']) ? $_GET['action'] : 'index';
 
 
@@ -26,6 +26,12 @@ class CDestino
                 break;
             case 'pedido':
                 $controller =new CPedido();
+                break;
+            case 'usaurio':
+                $controller=new CUsuario();
+                break;
+            case 'login':
+                $controller=new CLogin();
                 break;
         }
 
@@ -42,11 +48,10 @@ class CDestino
             case 'create':
                 $controller->create();
                 break;
-            /* 
+            
             case 'login':
                  $controller->login();
-                 break; 
-  */
+                 break;
 
             case 'store':
                 $controller->store();
@@ -68,7 +73,7 @@ class CDestino
 
             default:
                 // Si ponen una acción que no existe, los mandamos al listado por seguridad
-                header("Location: index.php?action=index");
+                header("Location: index.php?action=login");
                 break;
         }
     }
