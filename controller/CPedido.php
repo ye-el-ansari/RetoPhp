@@ -1,11 +1,27 @@
 <?php
-    class CPedido{
-        public function __construct(){
-            $this->model=new MPedidos();
-        }
-        public function index(){
-           $pedidos=$this->model->getAll();
-           require_once __DIR__."\../view/pedidos/VPedidoIndex.php";
-        }
+
+require_once __DIR__ . "/../model/MPedidos.php";
+class CPedido
+{
+    private MPedidos $model;
+    public function __construct()
+    {
+        $this->model = new MPedidos();
     }
-?>
+    public function index()
+    {
+        $pedido = $this->model->getAll();
+        require_once __DIR__ . "\../view/pedidos/VPedidoIndex.php";
+    }
+
+    public function show($id)
+    {
+
+        $data = $this->model->getPedidoById($id);
+        
+        echo "<pre>";
+        print_r($data);
+        echo "</pre>";
+        require_once __DIR__ . "/../view/pedidos/VPedidoVer.php";
+    }
+}

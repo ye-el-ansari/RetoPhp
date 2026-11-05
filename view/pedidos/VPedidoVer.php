@@ -6,39 +6,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ver Producto</title>
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="view/styles.css">
+    
 </head>
 
 <body>
-    <style>
-        .container {
-            width: 40%;
-            background-color: #dfdfdf;
-            border: solid 1px #949494;
-            margin-bottom: 100px;
-            padding: 30px;
-            border-radius: 10px
-        }
-
-        a
-    </style>
-    <div class="container mt-5">
+    <div class="container">
         <a href="?entity=producto&action=index" class="btn btn-secondary">Volver</a>
         <h1 class="text-center mb-4">Ver Producto</h1>
 
-        <?php
-        echo "<p><strong>ID Producto: </strong> " . $producto['productoId'] . "</p>";
-        echo "<p><strong>Nombre: </strong> " . $producto['productoNombre'] . "</p>";
-        echo "<p><strong>Categoría: </strong> " . $producto['productoCategoria'] . "</p>";
-        echo "<p><strong>Marca: </strong> " . $producto['productoMarca'] . "</p>";
-        echo "<p><strong>Modelo: </strong> " . $producto['productoModelo'] . "</p>";
-        echo "<p><strong>Precio: </strong> " . $producto['productoPrecio'] . "</p>";
-        echo "<p><strong>Stock: </strong> " . $producto['productoStock'] . "</p>";
-        echo "<p><strong>Peso: </strong> " . $producto['productoPeso'] . "</p>";
-        echo "<p><strong>Alto: </strong> " . $producto['productoAlto'] . "</p>";
-        echo "<p><strong>Ancho: </strong> " . $producto['productoAncho'] . "</p>";
-        echo "<p><strong>Profundidad: </strong> " . $producto['productoProfundidad'] . "</p>";
+        <section class="verPedido">
 
-        ?>
+            <?php
+
+            foreach ($data as $pedido) {
+
+                echo "<div>";
+                echo "<p><strong>ID Producto: </strong> " . $pedido['numero_pedido'] . "</p>";
+                echo "<p><strong>Nombre del producto: </strong> " . $pedido['producto_nombre'] . "</p>";
+                echo "<p><strong>Usuario: </strong> " . $pedido['usuario_nombre'] . "</p>";
+                echo "<p><strong>Cantidad: </strong> " . $pedido['cantidad'] . "</p>";
+                echo "<p><strong>Precio: </strong> " . $pedido['precio'] . "</p>";
+                echo "<p><strong>Estado: </strong> " . $pedido['estado'] . "</p>";
+                echo "<p><strong>Fecha: </strong> " . $pedido['fecha_pedido'] . "</p>";
+                echo "</div>";
+            }
+
+
+            ?>
+        </section>
+
+
+
 
 </html>
