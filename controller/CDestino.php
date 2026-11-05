@@ -13,7 +13,7 @@ class CDestino
     public static function enrutar()
     {
         // 1. Capturamos la acción de la URL (si no hay, por defecto es 'ver caballeros')
-        $entity = isset($_GET['entity']) ? $_GET['entity'] : 'login';
+        $entity = isset($_GET['entity']) ? $_GET['entity'] : 'producto';
         $action = isset($_GET['action']) ? $_GET['action'] : 'index';
 
 

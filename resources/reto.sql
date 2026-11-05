@@ -1,4 +1,3 @@
-
 -- ============================================
 -- BASE DE DATOS: TIENDA DE INFORMATICA
 -- Motor: MySQL 8
@@ -18,13 +17,14 @@ USE tienda_informatica;
 CREATE TABLE usuarios (
     id_usuario INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(80) NOT NULL,
-    rol VARCHAR NOT NULL,
+    rol TINYINT NOT NULL COMMENT '0: Usuario, 1: Administrador, etc.', -- Comentario corregido
     contrasenia VARCHAR(80) NOT NULL,
     apellidos VARCHAR(120) NOT NULL,
     email VARCHAR(150) NOT NULL UNIQUE,
     telefono VARCHAR(20),
     fecha_registro DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
+
 
 
 -- ============================================
@@ -98,7 +98,7 @@ CREATE TABLE pedidos (
         FOREIGN KEY (id_usuario)
         REFERENCES usuarios(id_usuario)
         ON UPDATE CASCADE
-        ON DELETE CASCADE   -- antes: RESTRICT
+        ON DELETE CASCADE
 );
 
 
@@ -123,7 +123,7 @@ CREATE TABLE detalles_pedido (
         FOREIGN KEY (id_producto)
         REFERENCES productos(id_producto)
         ON UPDATE CASCADE
-        ON DELETE CASCADE,  -- antes: RESTRICT
+        ON DELETE CASCADE,
 
     CONSTRAINT chk_detalle_cantidad
         CHECK (cantidad > 0),
@@ -136,14 +136,14 @@ CREATE TABLE detalles_pedido (
 );
 
 -- ============================================
--- INSERCIONES: USUARIOS (4 REGISTROS)
+-- INSERCIONES: USUARIOS (4 REGISTROS CORREGIDOS)
 -- ============================================
 
 INSERT INTO usuarios
-(id_usuario, nombre, apellidos, email, telefono)
+(id_usuario, nombre, rol, contrasenia, apellidos, email, telefono) -- Se añadieron las columnas faltantes
 VALUES
 (1, 'Carlos', 1, '1234', 'Garcia Lopez', 'carlos@gmail.com', '600123456'),
-(2, 'Laura', 0, '1234','Martinez Perez', 'laura@gmail.com', '611234567'),
+(2, 'Laura', 0, '1234', 'Martinez Perez', 'laura@gmail.com', '611234567'),
 (3, 'Javier', 1, '1234', 'Sanchez Ruiz', 'javier@gmail.com', '622345678'),
 (4, 'Ana', 1, '1234', 'Fernandez Diaz', 'ana@gmail.com', '633456789');
 
@@ -155,17 +155,10 @@ VALUES
 INSERT INTO productos
 (id_producto, nombre, categoria, marca, modelo, precio, stock)
 VALUES
-(1, 'Tarjeta grafica RTX 4070', 'Tarjetas graficas',
- 'NVIDIA', 'RTX 4070', 599.99, 15),
-
-(2, 'Procesador Ryzen 7 7800X3D', 'Procesadores',
- 'AMD', '7800X3D', 399.99, 10),
-
-(3, 'Memoria RAM DDR5 32GB', 'Memoria RAM',
- 'Corsair', 'Vengeance 32GB DDR5', 119.99, 25),
-
-(4, 'Monitor Gaming 27 pulgadas', 'Monitores',
- 'LG', '27GP850', 299.99, 8);
+(1, 'Tarjeta grafica RTX 4070', 'Tarjetas graficas', 'NVIDIA', 'RTX 4070', 599.99, 15),
+(2, 'Procesador Ryzen 7 7800X3D', 'Procesadores', 'AMD', '7800X3D', 399.99, 10),
+(3, 'Memoria RAM DDR5 32GB', 'Memoria RAM', 'Corsair', 'Vengeance 32GB DDR5', 119.99, 25),
+(4, 'Monitor Gaming 27 pulgadas', 'Monitores', 'LG', '27GP850', 299.99, 8);
 
 
 -- ============================================
