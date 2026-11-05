@@ -111,7 +111,7 @@ CREATE TABLE detalles_pedido (
     id_pedido INT UNSIGNED NOT NULL,
     id_producto INT UNSIGNED NOT NULL,
     cantidad INT UNSIGNED NOT NULL,
-    precio_unitario DECIMAL(10, 2) NOT NULL,
+    precio_compra DECIMAL(10, 2) NOT NULL,
 
     CONSTRAINT fk_detalles_pedidos
         FOREIGN KEY (id_pedido)
@@ -129,7 +129,7 @@ CREATE TABLE detalles_pedido (
         CHECK (cantidad > 0),
 
     CONSTRAINT chk_detalle_precio
-        CHECK (precio_unitario >= 0),
+        CHECK (precio_compra >= 0),
 
     CONSTRAINT uq_pedido_producto
         UNIQUE (id_pedido, id_producto)
@@ -192,9 +192,9 @@ VALUES
 -- ============================================
 
 INSERT INTO detalles_pedido
-(id_detalle, id_pedido, id_producto, cantidad, precio_unitario)
+(id_detalle, id_pedido, id_producto, cantidad, precio_compra)
 VALUES
 (1, 1, 1, 1, 599.99),
-(2, 1, 3, 2, 109.99),
+(2, 1, 3, 2, 219.98),
 (3, 2, 2, 1, 399.99),
-(4, 3, 4, 1, 299.99);
+(4, 3, 4, 1, 899.97);

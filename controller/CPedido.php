@@ -5,6 +5,7 @@ require_once __DIR__ . "/../model/MProductos.php";
 class CPedido
 {
     private MPedidos $model;
+    private MProductos $modelProducto;
     public function __construct()
     {
         $this->model = new MPedidos();
@@ -19,21 +20,24 @@ class CPedido
     {
 
         $data = $this->model->getPedidoById($id);
-        
-        echo "<pre>";
+
+       /* echo "<pre>";
         print_r($data);
-        echo "</pre>";
+        echo "</pre>"; */
         require_once __DIR__ . "/../view/pedidos/VPedidoVer.php";
     }
 
-     public function edit($id)
+    public function edit($id)
     {
 
+        $this->modelProducto = new MProductos;
+        $productos = $this->modelProducto->getAll();
+
         $data = $this->model->getDetalleById($id);
-        
-        echo "<pre>";
+
+        /* echo "<pre>";
         print_r($data);
-        echo "</pre>";
+        echo "</pre>"; */
 
         require_once __DIR__ . "/../view/pedidos/VPedidoModificar.php";
     }

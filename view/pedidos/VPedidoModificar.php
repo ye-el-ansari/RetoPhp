@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar Producto</title>
+    <title>Editar Pedido</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
@@ -22,87 +22,70 @@
 <body>
 
     <div class="container mt-5">
-        <a href="?entity=producto&action=index" class="btn btn-secondary">Volver</a>
-        <h1 class="text-center mb-4">Formulario de edición de Producto</h1>
+        <a href="?entity=pedido&action=index" class="btn btn-secondary">Volver</a>
+        <h1 class="text-center mb-4">Formulario de edición de Pedido</h1>
 
         <form method="post" action="index.php?action=update&id=<?= $data['id_detalle'] ?>">
 
-            <div class="mb-3">
-                <label for="nombre" class="form-label">Nombre del Producto</label>
-                <input name="nombre" type="text" class="form-control" id="nombre" value="<?= $data['producto_nombre'] ?>" required>
-            </div>
 
-
-            <label for="arma" class="form-label">Arma</label>
-            <select name="arma" id="arma" class="form-select" required>
+            <label for="producto" class="form-label">Producto</label>
+            <select name="producto" id="producto" class="form-select" required>
                 <?php
-                foreach ($arma as $a) {
-                    if ($a['id_arma'] == $caballero['armaId']) {
-                        echo "<option value='" . $a['id_arma'] . "' selected>";
-                        echo $a['tipo'];
+
+                $precio = 0;
+                foreach ($productos as $a) {
+                    if ($a['id_producto'] == $data['id_producto']) {
+                        echo "<option value='" . $a['id_producto'] . "' selected>";
+                        echo $a['nombre'];
                         echo "</option>";
+                        echo "<div id='precioProducto' styles='display=hidden'>" .$a['precio']."</div>";
+                        $precio = $a['precio'];
                     } else {
-                        echo "<option value='" . $a['id_arma'] . "'>";
-                        echo $a['tipo'];
+                        echo "<option value='" . $a['id_producto'] . "'>";
+                        echo $a['nombre'];
                         echo "</option>";
                     }
                 }
                 ?>
             </select>
-
-
             <div class="mb-3">
-                <label for="categoria" class="form-label">Categoría</label>
-                <input name="categoria" type="text" class="form-control" id="categoria" value="<?= $data['productoCategoria'] ?>" placeholder="Ingresa la categoría del producto" required>
+                <label for="cantidad" class="form-label">Cantidad</label>
+                <input name="cantidad" type="number" class="form-control" id="cantidad" value="<?= $data['cantidad'] ?>"
+                    placeholder="Ingresa la cantidad del producto" required min="1">
             </div>
-
-            <div class="mb-3">
-                <label for="marca" class="form-label">Marca</label>
-                <input name="marca" type="text" class="form-control" id="marca" value="<?= $data['productoMarca'] ?>" placeholder="Ingresa la marca del producto" required>
-            </div>
-
-
-            <div class="mb-3">
-                <label for="modelo" class="form-label">Modelo</label>
-                <input name="modelo" type="text" class="form-control" id="modelo" value="<?= $data['productoModelo'] ?>" placeholder="Ingresa el modelo del producto" required>
-            </div>
-
 
             <div class="mb-3">
                 <label for="precio" class="form-label">Precio</label>
-                <input name="precio" type="number" class="form-control" id="precio" value="<?= $data['productoPrecio'] ?>" placeholder="Ingresa el precio del producto" required>
+                <input name="precio" type="number" class="form-control" id="precio"
+                    value="<?= $precio * $data['cantidad']   ?>" placeholder="Ingresa la marca del producto"
+                    required disabled>
             </div>
 
 
-            <div class="mb-3">
-                <label for="stock" class="form-label">Stock</label>
-                <input name="stock" type="number" class="form-control" id="stock" value="<?= $data['productoStock'] ?>" placeholder="Ingresa el stock del producto" required>
-            </div>
-
-
-            <div class="mb-3">
-                <label for="peso" class="form-label">Peso</label>
-                <input name="peso" type="number" class="form-control" id="peso" value="<?= $data['productoPeso'] ?>" placeholder="Ingresa el peso" required>
-            </div>
-
-            <div class="mb-3">
-                <label for="altura" class="form-label">Altura</label>
-                <input name="altura" type="number" class="form-control" id="altura" value="<?= $data['productoAlto'] ?>" placeholder="Ingresa la altura" required>
-            </div>
-
-            <div class="mb-3">
-                <label for="ancho" class="form-label">Ancho</label>
-                <input name="ancho" type="number" class="form-control" id="ancho" value="<?= $data['productoAncho'] ?>" placeholder="Ingresa el ancho" required>
-            </div>
-
-            <div class="mb-3">
-                <label for="profundidad" class="form-label">Profundidad</label>
-                <input name="profundidad" type="number" class="form-control" id="profundidad" value="<?= $data['productoProfundidad'] ?>" placeholder="Ingresa la profundidad" required>
-            </div>
+           
 
             <button type="submit" class="btn btn-primary w-100">Modificar Producto</button>
         </form>
     </div> <!-- Cierre correcto del container -->
+
+    <script>
+        // JavaScript para actualizar el precio total en tiempo real
+        const inputCantidad = document.getElementById('cantidad');
+        const totalPantalla = document.getElementById('precio');
+        const precio = parseFloat(document.getElementById('precioProducto').innerText);
+
+        inputCantidad.addEventListener('change', function () {
+            let cantidad = parseInt(this.value);
+
+            // Calculamos el precio total
+            let precioTotal = precio * cantidad;
+
+            // Mostramos el resultado formateado a 2 decimales
+            
+            totalPantalla.value = precioTotal.toFixed(2);
+        });
+    </script>
+
 
 </body>
 
