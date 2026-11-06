@@ -18,12 +18,6 @@ require_once __DIR__."\../model/MLogin.php";
         session_start();
             $_SESSION['nombre']=$usuario['nombre'];
             $_SESSION['rol']=$usuario['rol'];
-
-     //  if(0==strcmp($usuario['rol'],1)){
-            
-   // }else{
-
-   // }
     header("Location: index.php?entity=producto&action=index");
         }else{
             header("Location: index.php");
