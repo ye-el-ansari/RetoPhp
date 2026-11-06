@@ -1,3 +1,9 @@
+<?php
+    session_start();
+    if(!isset($_SESSION['nombre'])){
+        header("Location: ../l../index.php");
+    }
+?>
 <!DOCTYPE html>
 <html lang="es">
 

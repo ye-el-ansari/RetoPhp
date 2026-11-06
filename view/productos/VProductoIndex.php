@@ -1,5 +1,11 @@
+<?php
+    session_start();
+    if(!isset($_SESSION['nombre'])){
+        header("Location: ../../index.php");
+    }
+?>
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es">    
 
 <head>
     <meta charset="UTF-8">
