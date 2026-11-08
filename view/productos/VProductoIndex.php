@@ -26,7 +26,6 @@
             <a href="?entity=producto&amp;action=index" class="is-active" aria-current="page">Productos</a>
             <a href="?entity=pedido&amp;action=index">Pedidos</a>
             <a href="?entity=usuario&amp;action=index">Usuarios</a>
-            <a href="?entity=carrito&amp;action=index">Carrito</a>
             </nav>
             <span class="page-sub"> Hola  <?=$_SESSION["nombre"] ?></span>
             <a class="logout" href="?entity=login&amp;action=index">Cerrar sesión</a>

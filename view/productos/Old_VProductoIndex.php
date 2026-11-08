@@ -1,4 +1,4 @@
-<!-- <?php
+ <?php
     session_start();
     if(!isset($_SESSION['nombre'])){
         header("Location: ../../index.php");
@@ -58,7 +58,7 @@
                     echo "<td>" . $dato['stock'] . "</td>";
                    
                
-*/
+
 
                     echo "<td>
                         <a href='?entity=producto&action=show&id=" . $dato['id_producto'] . "' class='btn btn-info btn-sm'>Ver</a>
@@ -84,4 +84,4 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
-</html> -->
+</html> 

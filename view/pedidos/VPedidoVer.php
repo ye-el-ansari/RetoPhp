@@ -36,7 +36,7 @@
         <a href="?entity=pedido&action=index" class="back">← Volver a pedidos</a>
         <div class="page-head">
             <div>
-                <h1>Detalle del pedido</h1>
+                <h1>Detalles del pedido</h1>
                 <p class="page-sub">Líneas y estado del pedido seleccionado.</p>
             </div>
         </div>
@@ -45,19 +45,30 @@
 
             <?php
 
+                $total = 0;
+                echo "<p><strong>Nº de pedido: </strong> " . $data[0]['numero_pedido'] . "</p>";
+                 echo "<p><strong>Usuario: </strong> " . $data[0]['usuario_nombre'] . "</p>";
+                  echo "<p><strong>Estado: </strong> <span class='badge badge-" . $data[0]['estado'] . "'>" . $data[0]['estado'] . "</span></p>";
+                  echo "<p><strong>Fecha: </strong> " . $data[0]['fecha_pedido'] . "</p>";
             foreach ($data as $pedido) {
 
                 echo "<div>";
-                echo "<p><strong>Nº de pedido: </strong> " . $pedido['numero_pedido'] . "</p>";
                 echo "<p><strong>Nombre del producto: </strong> " . $pedido['producto_nombre'] . "</p>";
-                echo "<p><strong>Usuario: </strong> " . $pedido['usuario_nombre'] . "</p>";
+               
                 echo "<p><strong>Cantidad: </strong> " . $pedido['cantidad'] . "</p>";
-                echo "<p><strong>Precio: </strong> " . $pedido['precio'] . "</p>";
-                echo "<p><strong>Estado: </strong> <span class='badge badge-" . $pedido['estado'] . "'>" . $pedido['estado'] . "</span></p>";
-                echo "<p><strong>Fecha: </strong> " . $pedido['fecha_pedido'] . "</p>";
+
+                $precio_unitario = $pedido['precio_compra'] /  $pedido['cantidad'];
+
+                echo "<p><strong>Precio: </strong> " . number_format($precio_unitario, 2)  . "€</p>";
+                
+                echo "<p><strong>Subtotal: </strong> " . $pedido['precio_compra'] . "€</p>";
                 echo "</div>";
+
+                $total += $pedido['cantidad'] * $precio_unitario;
+
             }
 
+            echo "<p><strong>Total: </strong> " . $total . "€</p>";
 
             ?>
         </section>

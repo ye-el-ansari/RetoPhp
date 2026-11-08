@@ -17,8 +17,10 @@ class MPedidos
             detalles_pedido.id_detalle,
         detalles_pedido.id_pedido AS numero_pedido,
         productos.nombre AS producto_nombre,
-        usuarios.nombre AS usuario_nombre, detalles_pedido.cantidad,
-        detalles_pedido.precio_compra AS precio ,
+        usuarios.nombre AS usuario_nombre, 
+        detalles_pedido.cantidad,
+        detalles_pedido.precio_compra ,
+        productos.precio AS precio,
         pedidos.estado, pedidos.fecha_pedido     
         FROM detalles_pedido INNER JOIN productos  
         ON detalles_pedido.id_producto = productos.id_producto
@@ -56,6 +58,7 @@ class MPedidos
         productos.nombre AS producto_nombre,
         usuarios.nombre AS usuario_nombre, detalles_pedido.cantidad,
         detalles_pedido.precio_compra AS precio ,
+        productos.precio AS precio_producto ,
         pedidos.estado, pedidos.fecha_pedido     
         FROM detalles_pedido INNER JOIN productos  
         ON detalles_pedido.id_producto = productos.id_producto
@@ -80,6 +83,20 @@ class MPedidos
         }
     }
 
+     public function getPedido()
+    {
+        $consulta = $this->db->query("SELECT 
+         *    
+        FROM  pedidos  ;
+    ");
+
+        while ($filas = $consulta->fetch_assoc()) {
+
+            $this->data[] = $filas;
+        }
+        $consulta->close();
+        return $this->data;
+    }
     public function getAll()
     {
         $consulta = $this->db->query("SELECT 
@@ -87,7 +104,8 @@ class MPedidos
         detalles_pedido.id_pedido AS numero_pedido,
         productos.nombre AS producto_nombre,
         usuarios.nombre AS usuario_nombre, detalles_pedido.cantidad,
-        detalles_pedido.precio_compra AS precio ,
+        detalles_pedido.precio_compra,
+        productos.precio AS precio_producto ,
         pedidos.estado, pedidos.fecha_pedido     
         FROM detalles_pedido INNER JOIN productos  
         ON detalles_pedido.id_producto = productos.id_producto
@@ -104,28 +122,45 @@ class MPedidos
         return $this->data;
     }
 
-    public function update(
-        $id,
-        $nombre,
-        $categoria,
-        $marca,
-        $modelo,
+    public function updateCliente(
+        $cantidad,
         $precio,
-        $stock,
-        $peso,
-        $alto,
-        $ancho,
-        $profundidad
+        $id
     ) {
-        $consulta = $this->db->prepare('UPDATE productos 
-        SET nombre = ?, categoria = ?, marca = ?, modelo = ?, precio = ?, stock = ? 
-        WHERE id_producto = ?');
-        $consulta->bind_param('ssssdii', $nombre, $categoria, $marca, $modelo, $precio, $stock, $id);
+        $consulta = $this->db->prepare('UPDATE detalles_pedido 
+        SET cantidad = ?, precio_compra = ?
+        WHERE id_detalle = ?'
+
+
+        );
+        $consulta->bind_param('iii', $cantidad, $precio, $id);
         $consulta->execute();
 
 
-        $consultaDetalles = $this->db->prepare('UPDATE detalles_producto SET peso = ?, alto = ?, ancho = ?, profundidad = ? WHERE id_producto = ?');
-        $consultaDetalles->bind_param('ddddi', $peso, $alto, $ancho, $profundidad, $id);
-        $consultaDetalles->execute();
+        /* --- ACTUALIZAR LA LINEA DE ARRIBA CON ESTA AL TERMINAR ------
+            UPDATE detalles_pedido
+            INNER JOIN pedidos  ON detalles_pedido.id_pedido = pedidos.id_pedido
+            SET detalles_pedido.cantidad = ?,  detalles_pedido.precio_compra = ?
+            WHERE detalles_pedido.id_detalle = ? AND pedidos.estado = 'pendiente'; */
+
     }
+
+
+        public function updatePedido(
+        $estado,
+        $id
+    ) {
+        $consulta = $this->db->prepare('UPDATE pedidos 
+        SET estado = ?
+        WHERE id_pedido = ?'
+
+
+        );
+        $consulta->bind_param('si', $estado, $id);
+        $consulta->execute();
+
+
+    }
+
+
 }
