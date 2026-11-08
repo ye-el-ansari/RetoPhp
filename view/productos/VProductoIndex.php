@@ -5,85 +5,81 @@
     }
 ?>
 <!DOCTYPE html>
-<html lang="es">    
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Productos</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Productos · techUP</title>
+    <link rel="stylesheet" href="view/styles.css">
 </head>
 
 <body>
+    <header class="topbar">
+        <div class="topbar-inner">
+            <a class="brand" href="?entity=producto&amp;action=index" aria-label="techUP, inicio">
+                <span class="brand-mark" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#12151e" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg></span>
+                <span class="brand-name">tech<b>UP</b></span>
+                <span class="brand-tag">Panel de gestión</span>
+            </a>
+            <nav class="nav" aria-label="Secciones">
+            <a href="?entity=producto&amp;action=index" class="is-active" aria-current="page">Productos</a>
+            <a href="?entity=pedido&amp;action=index">Pedidos</a>
+            <a href="?entity=usuario&amp;action=index">Usuarios</a>
+            <a href="?entity=carrito&amp;action=index">Carrito</a>
+            </nav>
+            <span class="page-sub"> Hola  <?=$_SESSION["nombre"] ?></span>
+            <a class="logout" href="?entity=login&amp;action=index">Cerrar sesión</a>
+        </div>
+    </header>
 
-  <a href="?entity=login&action=index" class="btn btn-secondary">Logout</a>
-<div class="container mt-5">
-    <a href="?entity=carrito&action=index" class="btn btn-primary">Ver Carrito</a>
-    <a href="?entity=usuario&action=index" class="btn btn-primary">Ver Usuarios</a>
-    <a href="?entity=pedido&action=index" class="btn btn-primary">Ver Pedidos</a>
-</div>
-    <div class="container mt-5">
-        <h1 class="text-center mb-4">Lista de Productos</h1>
+    <main class="page">
+        <div class="page-head">
+            <div>
+                <h1>Productos</h1>
+                <p class="page-sub">Catálogo de la tienda.</p>
+            </div>
+            <a href="?entity=producto&action=create" class="btn btn-primary">Nuevo producto</a>
+        </div>
 
-        <table class="table table-striped table-bordered">
-            <thead class="bg-dark text-white">
-                <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Nombre</th>
-                    <th scope="col">Categoría</th>
-                    <th scope="col">Marca</th>
-                    <th scope="col">Modelo</th>
-                    <th scope="col">Precio</th>
-                    <th scope="col">Stock</th>
-                    <!--<th scope="col">Arma</th>
-                     <th scope="col">Escudo</th> -->
-                     
-                     <th scope="col">Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Ejemplo de caballero -->
+        <div class="panel table-wrap">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Categoría</th>
+                        <th scope="col">Marca</th>
+                        <th scope="col">Modelo</th>
+                        <th scope="col" class="num">Precio</th>
+                        <th scope="col" class="num">Stock</th>
+                        <th scope="col">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    foreach ($productos as $dato) {
+                        echo "<tr>
+                            <td class='muted'>" . $dato['id_producto'] . "</td>";
+                        echo "<td class='strong'>" . $dato['nombre'] . "</td>";
+                        echo "<td>" . $dato['categoria'] . "</td>";
+                        echo "<td>" . $dato['marca'] . "</td>";
+                        echo "<td>" . $dato['modelo'] . "</td>";
+                        echo "<td class='num'>" . $dato['precio'] . " €</td>";
+                        echo "<td class='num'>" . $dato['stock'] . "</td>";
 
-
-                <?php
-                foreach ($productos as $dato) {
-                    echo "<tr>
-                        
-                            <td>" . $dato['id_producto'] . "</td>";
-                    echo "<td>" . $dato['nombre'] . "</td>";
-                    echo "<td>" . $dato['categoria'] . "</td>";
-                    echo "<td>" . $dato['marca'] . "</td>";
-                    echo "<td>" . $dato['modelo'] . "</td>";
-                    echo "<td>" . $dato['precio'] . "</td>";
-                    echo "<td>" . $dato['stock'] . "</td>";
-                   
-                   /* echo "<td>" . $dato['id_arma'] . "</td>";
-                    echo "<td>" . $dato['id_escudo'] . "</td>";
-*/
-
-                    echo "<td>
-                        <a href='?entity=producto&action=show&id=" . $dato['id_producto'] . "' class='btn btn-info btn-sm'>Ver</a>
-                        <a href='?entity=producto&action=edit&id=" . $dato['id_producto'] . "' class='btn btn-warning btn-sm'>Modificar</a>
-                        <a href='?entity=producto&action=destroy&id=" . $dato['id_producto'] . "' class='btn btn-danger btn-sm'>Eliminar</a>
+                        echo "<td class='actions'>
+                            <a href='?entity=producto&action=show&id=" . $dato['id_producto'] . "' class='btn btn-sm btn-view'>Ver</a>
+                            <a href='?entity=producto&action=edit&id=" . $dato['id_producto'] . "' class='btn btn-sm btn-edit'>Modificar</a>
+                            <a href='?entity=producto&action=destroy&id=" . $dato['id_producto'] . "' class='btn btn-sm btn-delete'>Eliminar</a>
                             </td>
-                            
                             </tr>";
-                }
-                ?>
-
-
-
-                <!-- Agrega más filas según sea necesario -->
-            </tbody>
-        </table>
-
-        <a href="?entity=producto&action=create" class="btn btn-primary">Crear Nuevo Producto</a>
-
-    </div>
-
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+                    }
+                    ?>
+                </tbody>
+            </table>
+        </div>
+    </main>
 </body>
 
 </html>

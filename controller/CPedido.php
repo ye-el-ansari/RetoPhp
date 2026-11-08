@@ -13,7 +13,7 @@ class CPedido
     public function index()
     {
         $pedido = $this->model->getAll();
-        require_once __DIR__ . "\../view/pedidos/VPedidoIndex.php";
+        require_once __DIR__ . "/../view/pedidos/VPedidoIndex.php";
     }
 
     public function show($id)

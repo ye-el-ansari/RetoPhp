@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__."\../model/MLogin.php";
+require_once __DIR__."/../model/MLogin.php";
     class CLogin{
         private MLogin $model;
         public function __construct(){
@@ -7,7 +7,7 @@ require_once __DIR__."\../model/MLogin.php";
         }
         
         public function index(){
-            require __DIR__."\../view/login/login.php";
+            require __DIR__."/../view/login/login.php";
 
         }
         public function login(){
@@ -19,6 +19,7 @@ require_once __DIR__."\../model/MLogin.php";
             $_SESSION['nombre']=$usuario['nombre'];
             $_SESSION['rol']=$usuario['rol'];
     header("Location: index.php?entity=producto&action=index");
+    exit; //para detener la ejecucion
         }else{
             header("Location: index.php");
         }

@@ -10,86 +10,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alta de Producto</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Alta de producto · techUP</title>
+    <link rel="stylesheet" href="view/styles.css">
 </head>
 
 <body>
-    <style>
-        .container {
-            width: 40%;
-            background-color: #dfdfdf;
-            border: solid 1px #949494;
-            margin-bottom: 100px;
-            padding: 30px;
-            border-radius: 10px
-        }
+    <header class="topbar">
+        <div class="topbar-inner">
+            <a class="brand" href="?entity=producto&amp;action=index" aria-label="techUP, inicio">
+                <span class="brand-mark" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#12151e" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg></span>
+                <span class="brand-name">tech<b>UP</b></span>
+                <span class="brand-tag">Panel de gestión</span>
+            </a>
+            <nav class="nav" aria-label="Secciones">
+            <a href="?entity=producto&amp;action=index" class="is-active" aria-current="page">Productos</a>
+            <a href="?entity=pedido&amp;action=index">Pedidos</a>
+            <a href="?entity=usuario&amp;action=index">Usuarios</a>
+            <a href="?entity=carrito&amp;action=index">Carrito</a>
+            </nav>
+            <a class="logout" href="?entity=login&amp;action=index">Cerrar sesión</a>
+        </div>
+    </header>
 
-        
-    </style>
-    <div class="container mt-5">
-        <a href="?entity=producto&action=index" class="btn btn-secondary">Volver</a>
-
-        <h1 class="text-center mb-4">Formulario de Alta de Producto</h1>
-
-        <form method="post" action="index.php?action=store">
-            <div class="mb-3">
-                <label for="nombre" class="form-label">Nombre del Producto</label>
-                <input name="nombre" type="text" class="form-control" id="nombre" placeholder="Ingresa el nombre" required>
+    <main class="page page-narrow">
+        <a href="?entity=producto&action=index" class="back">← Volver a productos</a>
+        <div class="page-head">
+            <div>
+                <h1>Alta de producto</h1>
+                <p class="page-sub">Completa los datos para añadirlo al catálogo.</p>
             </div>
+        </div>
 
-            <div class="mb-3">
-                <label for="categoria" class="form-label">Categoria</label>
-                <input name="categoria" type="text" class="form-control" id="categoria" placeholder="Ingresa la categoria" required>
+        <form method="post" action="index.php?action=store" class="panel form-card">
+            <fieldset>
+                <legend>Información del producto</legend>
+                <div class="form-grid">
+                    <div class="field full">
+                        <label for="nombre">Nombre del producto</label>
+                        <input name="nombre" type="text" class="input" id="nombre" placeholder="Ej. Tarjeta gráfica RTX 4070" required>
+                    </div>
+                    <div class="field">
+                        <label for="categoria">Categoría</label>
+                        <input name="categoria" type="text" class="input" id="categoria" placeholder="Ej. Tarjetas gráficas" required>
+                    </div>
+                    <div class="field">
+                        <label for="marca">Marca</label>
+                        <input name="marca" type="text" class="input" id="marca" placeholder="Ej. NVIDIA" required>
+                    </div>
+                    <div class="field">
+                        <label for="modelo">Modelo</label>
+                        <input name="modelo" type="text" class="input" id="modelo" placeholder="Ej. RTX 4070" required>
+                    </div>
+                    <div class="field">
+                        <label for="precio">Precio</label>
+                        <div class="input-unit"><input name="precio" type="number" class="input" id="precio" step="0.01" min="0" placeholder="0.00" required><span class="unit">€</span></div>
+                    </div>
+                    <div class="field">
+                        <label for="stock">Stock</label>
+                        <div class="input-unit"><input name="stock" type="number" class="input" id="stock" step="0.01" min="0" placeholder="Unidades" required><span class="unit">uds</span></div>
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>Peso y dimensiones</legend>
+                <div class="form-grid">
+                    <div class="field">
+                        <label for="peso">Peso</label>
+                        <div class="input-unit"><input name="peso" type="number" class="input" id="peso" step="0.01" min="0" placeholder="0" required><span class="unit">g</span></div>
+                    </div>
+                    <div class="field">
+                        <label for="altura">Altura</label>
+                        <div class="input-unit"><input name="altura" type="number" class="input" id="altura" step="0.01" min="0" placeholder="0" required><span class="unit">mm</span></div>
+                    </div>
+                    <div class="field">
+                        <label for="ancho">Ancho</label>
+                        <div class="input-unit"><input name="ancho" type="number" class="input" id="ancho" step="0.01" min="0" placeholder="0" required><span class="unit">mm</span></div>
+                    </div>
+                    <div class="field">
+                        <label for="profundidad">Profundidad</label>
+                        <div class="input-unit"><input name="profundidad" type="number" class="input" id="profundidad" step="0.01" min="0" placeholder="0" required><span class="unit">mm</span></div>
+                    </div>
+                </div>
+            </fieldset>
+
+            <div class="form-actions">
+                <a href="?entity=producto&action=index" class="btn btn-secondary">Cancelar</a>
+                <button type="submit" class="btn btn-primary">Dar de alta</button>
             </div>
-
-            <div class="mb-3">
-                <label for="marca" class="form-label">Marca</label>
-                <input name="marca" type="text" class="form-control" id="marca" placeholder="Ingresa la marca" required>
-            </div>
-
-            <div class="mb-3">
-                <label for="modelo" class="form-label">Modelo</label>
-                <input name="modelo" type="text" class="form-control" id="modelo" placeholder="Ingresa el modelo" required>
-            </div>
-
-            <div class="mb-3">
-                <label for="precio" class="form-label">Precio</label>
-                <input name="precio" type="number" class="form-control" id="precio" placeholder="Ingresa el precio" required>
-            </div>
-
-            <div class="mb-3">
-                <label for="stock" class="form-label">Stock</label>
-                <input name="stock" type="number" class="form-control" id="stock" placeholder="Ingresa el stock" required>
-            </div>
-
-            <div class="mb-3">
-                <label for="peso" class="form-label">Peso</label>
-                <input name="peso" type="number" class="form-control" id="peso" placeholder="Ingresa el peso" required>
-            </div>
-
-            <div class="mb-3">
-                <label for="altura" class="form-label">Altura</label>
-                <input name="altura" type="number" class="form-control" id="altura" placeholder="Ingresa la altura" required>
-            </div>
-
-            <div class="mb-3">
-                <label for="ancho" class="form-label">Ancho</label>
-                <input name="ancho" type="number" class="form-control" id="ancho" placeholder="Ingresa el ancho" required>
-            </div>
-
-            <div class="mb-3">
-                <label for="profundidad" class="form-label">Profundidad</label>
-                <input name="profundidad" type="number" class="form-control" id="profundidad" placeholder="Ingresa la profundidad" required>
-            </div>
-
-            <button type="submit" class="btn btn-primary">Dar de Alta</button>
         </form>
-    </div>
-
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+    </main>
 </body>
 
 </html>
