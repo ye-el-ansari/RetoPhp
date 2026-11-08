@@ -3,7 +3,9 @@
 -- Motor: MySQL 8
 -- ============================================
 
-CREATE DATABASE IF NOT EXISTS tienda_informatica
+DROP DATABASE IF EXISTS tienda_informatica;
+
+CREATE DATABASE tienda_informatica
 CHARACTER SET utf8mb4
 COLLATE utf8mb4_unicode_ci;
 
@@ -17,14 +19,13 @@ USE tienda_informatica;
 CREATE TABLE usuarios (
     id_usuario INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(80) NOT NULL,
-    rol TINYINT NOT NULL COMMENT '0: Usuario, 1: Administrador, etc.', -- Comentario corregido
+    rol TINYINT NOT NULL COMMENT '0: Administrador, 1: Usuario',
     contrasenia VARCHAR(80) NOT NULL,
     apellidos VARCHAR(120) NOT NULL,
     email VARCHAR(150) NOT NULL UNIQUE,
     telefono VARCHAR(20),
     fecha_registro DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
-
 
 
 -- ============================================
@@ -135,21 +136,22 @@ CREATE TABLE detalles_pedido (
         UNIQUE (id_pedido, id_producto)
 );
 
+
 -- ============================================
--- INSERCIONES: USUARIOS (4 REGISTROS CORREGIDOS)
+-- INSERCIONES: USUARIOS (0: Admin, 1: Usuario)
 -- ============================================
 
 INSERT INTO usuarios
-(id_usuario, nombre, rol, contrasenia, apellidos, email, telefono) -- Se añadieron las columnas faltantes
+(id_usuario, nombre, rol, contrasenia, apellidos, email, telefono)
 VALUES
-(1, 'Carlos', 1, '1234', 'Garcia Lopez', 'carlos@gmail.com', '600123456'),
-(2, 'Laura', 0, '1234', 'Martinez Perez', 'laura@gmail.com', '611234567'),
-(3, 'Javier', 1, '1234', 'Sanchez Ruiz', 'javier@gmail.com', '622345678'),
-(4, 'Ana', 1, '1234', 'Fernandez Diaz', 'ana@gmail.com', '633456789');
+(1, 'Carlos', 0, '1234', 'Garcia Lopez', 'carlos@gmail.com', '600123456'), -- Administrador (sin pedidos)
+(2, 'Laura', 1, '1234', 'Martinez Perez', 'laura@gmail.com', '611234567'),   -- Usuario
+(3, 'Javier', 0, '1234', 'Sanchez Ruiz', 'javier@gmail.com', '622345678'),   -- Administrador (sin pedidos)
+(4, 'Ana', 1, '1234', 'Fernandez Diaz', 'ana@gmail.com', '633456789');       -- Usuario
 
 
 -- ============================================
--- INSERCIONES: PRODUCTOS (4 REGISTROS)
+-- INSERCIONES: PRODUCTOS
 -- ============================================
 
 INSERT INTO productos
@@ -162,7 +164,7 @@ VALUES
 
 
 -- ============================================
--- INSERCIONES: DETALLES_PRODUCTO (4 REGISTROS)
+-- INSERCIONES: DETALLES_PRODUCTO
 -- ============================================
 
 INSERT INTO detalles_producto
@@ -175,26 +177,25 @@ VALUES
 
 
 -- ============================================
--- INSERCIONES: PEDIDOS (4 REGISTROS)
+-- INSERCIONES: PEDIDOS (Solo realizados por usuarios con rol 1)
 -- ============================================
 
 INSERT INTO pedidos
 (id_pedido, id_usuario, fecha_pedido, estado)
 VALUES
-(1, 1, '2026-10-20 10:30:00', 'entregado'),
-(2, 1, '2026-10-22 16:45:00', 'enviado'),
-(3, 2, '2026-10-24 12:15:00', 'pagado'),
-(4, 3, '2026-10-26 09:00:00', 'pendiente');
+(1, 2, '2026-10-24 12:15:00', 'pagado'),     -- Pedido de Laura (Usuario) con múltiples productos
+(2, 4, '2026-10-26 09:00:00', 'pendiente'),  -- Pedido de Ana (Usuario) con un solo producto
+(3, 2, '2026-10-27 14:00:00', 'enviado');    -- Segundo pedido de Laura (Usuario) con un solo producto
 
 
 -- ============================================
--- INSERCIONES: DETALLES_PEDIDO (4 REGISTROS)
+-- INSERCIONES: DETALLES_PEDIDO (Simulando varios productos en un mismo pedido)
 -- ============================================
 
 INSERT INTO detalles_pedido
 (id_detalle, id_pedido, id_producto, cantidad, precio_compra)
 VALUES
-(1, 1, 1, 1, 599.99),
-(2, 1, 3, 2, 219.98),
-(3, 2, 2, 1, 399.99),
-(4, 3, 4, 1, 899.97);
+(1, 1, 1, 1, 599.99), -- Pedido 1: Incluye Tarjeta gráfica RTX 4070
+(2, 1, 3, 2, 119.99), -- Pedido 1: Incluye 2 unidades de Memoria RAM DDR5 32GB
+(3, 2, 4, 1, 299.99), -- Pedido 2: Incluye Monitor Gaming 27 pulgadas
+(4, 3, 2, 1, 399.99); -- Pedido 3: Incluye Procesador Ryzen 7 7800X3D

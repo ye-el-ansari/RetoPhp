@@ -38,7 +38,8 @@
             </form>
 
             <div class="hint">
-                <p>Usuarios: Carlos, Laura, Javier, Ana</p>
+                <p>Admins: Carlos, Javier</p>
+                <p>Usuarios: Laura , Ana</p>
                 <p>Pass: del 1 al 4</p>
             </div>
         </div>

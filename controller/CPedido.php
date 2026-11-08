@@ -16,15 +16,18 @@ class CPedido
         require_once __DIR__ . "/../view/pedidos/VPedidoIndex.php";
     }
 
-    public function show($id)
+    public function show($id, $rol,$id_usuario)
     {
-
-        $data = $this->model->getPedidoById($id);
-
-       /* echo "<pre>";
+        /* echo "<pre>";
         print_r($data);
         echo "</pre>"; */
-        require_once __DIR__ . "/../view/pedidos/VPedidoVer.php";
+        if ($rol === 0) {
+            $pedido = $this->model->getPedidoById($id);
+            require __DIR__ . "/../view/pedidos/VPedidoVer.php";
+        } else {
+            $pedido = $this->model->getpedidoUsuario($id_usuario);
+            require __DIR__ . "/../view/pedidos/VPedidoUsuario.php";
+        }
     }
 
     public function edit($id)
@@ -35,11 +38,19 @@ class CPedido
 
         $data = $this->model->getDetalleById($id);
 
+        require_once __DIR__ . "/../view/pedidos/VPedidoModificar.php";
+
         /* echo "<pre>";
         print_r($data);
         echo "</pre>"; */
-
+    }
+    function update($id)
+    {
+        $estado = isset($_POST["estado"]) ? $_POST["estado"] : "cancelado";
+        if ($this->model->edit($id, $estado)) {
+            $this->index();
+            exit;
+        }
         require_once __DIR__ . "/../view/pedidos/VPedidoModificar.php";
     }
-
 }

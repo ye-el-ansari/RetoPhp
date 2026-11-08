@@ -1,5 +1,7 @@
 <?php
+    if (session_status() === PHP_SESSION_NONE) {
     session_start();
+}
     if(!isset($_SESSION['nombre'])){
         header("Location: ../../index.php");
     }
@@ -26,9 +28,9 @@
             <a href="?entity=producto&amp;action=index">Productos</a>
             <a href="?entity=pedido&amp;action=index" class="is-active" aria-current="page">Pedidos</a>
             <a href="?entity=usuario&amp;action=index">Usuarios</a>
-            <a href="?entity=carrito&amp;action=index">Carrito</a>
+           
             </nav>
-            <a class="logout" href="?entity=login&amp;action=index">Cerrar sesión. </a>
+            <a class="logout" href="?entity=login&amp;">Cerrar sesión. </a>
         </div>
     </header>
 
@@ -45,7 +47,7 @@
 
             <?php
 
-            foreach ($data as $pedido) {
+            foreach ($pedido as $pedido) {
 
                 echo "<div>";
                 echo "<p><strong>Nº de pedido: </strong> " . $pedido['numero_pedido'] . "</p>";

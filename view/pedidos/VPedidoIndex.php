@@ -1,8 +1,10 @@
 <?php
+if (session_status() === PHP_SESSION_NONE) {
     session_start();
-    if(!isset($_SESSION['nombre'])){
-        header("Location: ../../index.php");
-    }
+}
+if (!isset($_SESSION['nombre'])) {
+    header("Location: ../../index.php");
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -18,18 +20,20 @@
     <header class="topbar">
         <div class="topbar-inner">
             <a class="brand" href="?entity=producto&amp;action=index" aria-label="techUP, inicio">
-                <span class="brand-mark" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#12151e" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg></span>
+                <span class="brand-mark" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#12151e" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M6 15l6-6 6 6" />
+                    </svg></span>
                 <span class="brand-name">tech<b>UP</b></span>
                 <span class="brand-tag">Panel de gestión</span>
             </a>
             <nav class="nav" aria-label="Secciones">
-            <a href="?entity=producto&amp;action=index">Productos</a>
-            <a href="?entity=pedido&amp;action=index" class="is-active" aria-current="page">Pedidos</a>
-            <a href="?entity=usuario&amp;action=index">Usuarios</a>
-            <a href="?entity=carrito&amp;action=index">Carrito</a>
+                <a href="?entity=producto&amp;action=index">Productos</a>
+                <a href="?entity=pedido&amp;action=index" class="is-active" aria-current="page">Pedidos</a>
+                <a href="?entity=usuario&amp;action=index">Usuarios</a>
+                
             </nav>
-             <span class="page-sub"> Hola  <?=$_SESSION["nombre"] ?></span>
-            <a class="logout" href="?entity=login&amp;action=index">Cerrar sesión</a>
+            <span class="page-sub"> Hola <?= $_SESSION["nombre"] ?></span>
+            <a class="logout" href="?entity=login&amp;">Cerrar sesión</a>
         </div>
     </header>
 
@@ -39,7 +43,7 @@
                 <h1>Pedidos</h1>
                 <p class="page-sub">Pedidos de los clientes y su estado.</p>
             </div>
-            <a href="?entity=pedido&action=create" class="btn btn-primary">Nuevo pedido</a>
+
         </div>
 
         <div class="panel table-wrap">
@@ -76,9 +80,7 @@
                             echo "<td></td>"; // Fecha vacía
                             echo "<td class='actions'>
                             <a href='index.php?entity=pedido&action=edit&id=" . $dato['id_detalle'] . "'
-                            class='btn btn-sm btn-edit'>Modificar</a>
-                            <a href='index.php?entity=pedido&action=destroy&id=" . $dato['id_detalle'] . "'
-                            class='btn btn-sm btn-delete'>Eliminar</a>
+                            class='btn btn-sm btn-edit'>Modificar Estado</a>
                             </td>"; // Acciones
                         } else {
                             // Si es un pedido nuevo, mostramos todos los datos normalmente
@@ -90,11 +92,9 @@
                             echo "<td><span class='badge badge-" . $dato['estado'] . "'>" . $dato['estado'] . "</span></td>";
                             echo "<td class='muted'>" . $dato['fecha_pedido'] . "</td>";
                             echo "<td class='actions'>
-                            <a href='index.php?entity=pedido&action=show&id=" . $dato['numero_pedido'] . "' class='btn btn-sm btn-view'>Ver</a>
+                            <a href='index.php?entity=pedido&rol=0&action=show&id=" . $dato['numero_pedido'] . "' class='btn btn-sm btn-view'>Ver</a>
                             <a href='index.php?entity=pedido&action=edit&id=" . $dato['id_detalle'] . "'
-                            class='btn btn-sm btn-edit'>Modificar</a>
-                            <a href='index.php?entity=pedido&action=destroy&id=" . $dato['id_detalle'] . "'
-                            class='btn btn-sm btn-delete'>Eliminar</a>
+                            class='btn btn-sm btn-edit'>Modificar Estado</a>
                             </td>";
                         }
 

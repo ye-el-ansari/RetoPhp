@@ -1,8 +1,10 @@
 <?php
+if (session_status() === PHP_SESSION_NONE) {
     session_start();
-    if(!isset($_SESSION['nombre'])){
-        header("Location: ../../index.php");
-    }
+}
+if (!isset($_SESSION['nombre'])) {
+    header("Location: ../../index.php");
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -18,15 +20,17 @@
     <header class="topbar">
         <div class="topbar-inner">
             <a class="brand" href="?entity=producto&amp;action=index" aria-label="techUP, inicio">
-                <span class="brand-mark" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#12151e" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg></span>
+                <span class="brand-mark" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#12151e" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M6 15l6-6 6 6" />
+                    </svg></span>
                 <span class="brand-name">tech<b>UP</b></span>
                 <span class="brand-tag">Panel de gestión</span>
             </a>
             <nav class="nav" aria-label="Secciones">
-            <a href="?entity=producto&amp;action=index">Productos</a>
-            <a href="?entity=pedido&amp;action=index" class="is-active" aria-current="page">Pedidos</a>
-            <a href="?entity=usuario&amp;action=index">Usuarios</a>
-            <a href="?entity=carrito&amp;action=index">Carrito</a>
+                <a href="?entity=producto&amp;action=index">Productos</a>
+                <a href="?entity=pedido&amp;action=index" class="is-active" aria-current="page">Pedidos</a>
+                <a href="?entity=usuario&amp;action=index">Usuarios</a>
+                
             </nav>
             <a class="logout" href="?entity=login&amp;action=index">Cerrar sesión</a>
         </div>
@@ -41,11 +45,11 @@
             </div>
         </div>
 
-        <form method="post" action="index.php?action=update&id=<?= $data['id_detalle'] ?>" class="panel form-card">
+        <form method="post" action="index.php?entity=pedido&amp;action=update&amp;id=<?= $data['id_detalle'] ?>" class="panel form-card">
             <div class="form-grid">
                 <div class="field full">
                     <label for="producto">Producto</label>
-                    <select name="producto" id="producto" class="select" required>
+                    <select name="producto" id="producto" class="select" required disabled>
                         <?php
 
                         $precio = 0;
@@ -68,7 +72,7 @@
                 <div class="field">
                     <label for="cantidad">Cantidad</label>
                     <input name="cantidad" type="number" class="input" id="cantidad" value="<?= $data['cantidad'] ?>"
-                        placeholder="Unidades" required min="1">
+                        placeholder="Unidades" required disabled>
                 </div>
 
                 <div class="field">
@@ -78,6 +82,32 @@
                             value="<?= $precio * $data['cantidad']   ?>" required disabled>
                         <span class="unit">€</span>
                     </div>
+                </div>
+                <div class="field full">
+                    <label for="producto">Estado</label>
+                    <select name="estado" id="estado" class="select" required>
+                        <?php
+                        //segun el estado actual se guardan aqui el resto
+                        $resto = [];
+                        //match como el switch moderno de php
+                        $resto = match ($data["estado"]) {
+                            "pendiente" => ["pagado", "enviado", "entregado"],
+                            "pagado"    => ["enviado", "entregado"],
+                            "enviado"   => ["entregado"],
+                            "entregado" => ["enviado"],
+                            default     => [$data["estado"]], // maneja cualquier estado
+                        };
+
+                        ?>
+
+                        <option value="<?= $data["estado"]  ?>" selected><?= $data["estado"]  ?></option>
+                        <?php 
+                        foreach($resto as $estado):
+                        ?>
+                        <option value="<?= $estado ?>"><?= $estado ?></option>
+                        <?php endforeach;?>
+
+                    </select>
                 </div>
             </div>
 

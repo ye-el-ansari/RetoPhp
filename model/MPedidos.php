@@ -88,7 +88,7 @@ class MPedidos
         productos.nombre AS producto_nombre,
         usuarios.nombre AS usuario_nombre, detalles_pedido.cantidad,
         detalles_pedido.precio_compra AS precio ,
-        pedidos.estado, pedidos.fecha_pedido     
+        pedidos.estado AS estado, pedidos.fecha_pedido     
         FROM detalles_pedido INNER JOIN productos  
         ON detalles_pedido.id_producto = productos.id_producto
         INNER JOIN pedidos  ON detalles_pedido.id_pedido = pedidos.id_pedido
@@ -104,6 +104,12 @@ class MPedidos
         return $this->data;
     }
 
+        function edit($id,$estado){
+            $query=$this->db->prepare("UPDATE pedidos set estado=? where id_pedido=?;");
+            $query->bind_param("si",$estado,$id);
+            return $query->execute();
+
+        }
     public function update(
         $id,
         $nombre,
@@ -127,5 +133,24 @@ class MPedidos
         $consultaDetalles = $this->db->prepare('UPDATE detalles_producto SET peso = ?, alto = ?, ancho = ?, profundidad = ? WHERE id_producto = ?');
         $consultaDetalles->bind_param('ddddi', $peso, $alto, $ancho, $profundidad, $id);
         $consultaDetalles->execute();
+    }
+    function getpedidoUsuario($id_usuario){
+        $query=$this->db->prepare("SELECT 
+            detalles_pedido.id_detalle,
+        detalles_pedido.id_pedido AS numero_pedido,
+        productos.nombre AS producto_nombre,
+        usuarios.nombre AS usuario_nombre, detalles_pedido.cantidad,
+        detalles_pedido.precio_compra AS precio ,
+        pedidos.estado, pedidos.fecha_pedido     
+        FROM detalles_pedido INNER JOIN productos  
+        ON detalles_pedido.id_producto = productos.id_producto
+        INNER JOIN pedidos  ON detalles_pedido.id_pedido = pedidos.id_pedido
+        INNER JOIN usuarios  ON pedidos.id_usuario = usuarios.id_usuario
+        where usuarios.id_usuario=?;");
+        $query->bind_param("i",$id_usuario);
+        $query->execute();
+        $result=$query->get_result();
+       return $result->fetch_all(MYSQLI_ASSOC);
+
     }
 }

@@ -1,5 +1,7 @@
 <?php
+    if (session_status() === PHP_SESSION_NONE) {
     session_start();
+}
     if(!isset($_SESSION['nombre'])){
         header("Location: ../../index.php");
     }
@@ -26,7 +28,7 @@
             <a href="?entity=producto&amp;action=index" class="is-active" aria-current="page">Productos</a>
             <a href="?entity=pedido&amp;action=index">Pedidos</a>
             <a href="?entity=usuario&amp;action=index">Usuarios</a>
-            <a href="?entity=carrito&amp;action=index">Carrito</a>
+          
             </nav>
             <a class="logout" href="?entity=login&amp;action=index">Cerrar sesión</a>
         </div>
@@ -41,7 +43,7 @@
             </div>
         </div>
 
-        <form method="post" action="index.php?action=store" class="panel form-card">
+        <form method="post" action="index.php?entity=producto&amp;action=store" class="panel form-card">
             <fieldset>
                 <legend>Información del producto</legend>
                 <div class="form-grid">
