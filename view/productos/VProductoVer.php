@@ -26,7 +26,7 @@
             </a>
             <nav class="nav" aria-label="Secciones">
             <a href="?entity=producto&amp;action=index" class="is-active" aria-current="page">Productos</a>
-            <a href="?entity=pedido&amp;action=index">Pedidos</a>
+            <a href="?entity=pedido&amp;action=index&rol=0">Pedidos</a>
             <a href="?entity=usuario&amp;action=index">Usuarios</a>
            
             </nav>

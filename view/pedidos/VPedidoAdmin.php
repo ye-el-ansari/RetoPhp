@@ -81,9 +81,7 @@ if (!isset($_SESSION['nombre'])) {
                             echo "<td class='num'>" . $dato['precio'] . " €</td>";
                             echo "<td></td>"; // Estado vacío
                             echo "<td></td>"; // Fecha vacía
-                            echo "<td class='actions'>
-                            <a href='index.php?entity=pedido&action=edit&rol=0&id=" . $dato['id_detalle'] . "'
-                            class='btn btn-sm btn-edit'>Modificar Estado</a>
+                            echo "<td>
                             </td>"; // Acciones
                         } else {
                             // Si es un pedido nuevo, mostramos todos los datos normalmente
@@ -96,7 +94,7 @@ if (!isset($_SESSION['nombre'])) {
                             echo "<td class='muted'>" . $dato['fecha_pedido'] . "</td>";
                             echo "<td class='actions'>
                             <a href='index.php?entity=pedido&rol=0&action=show&id=" . $dato['numero_pedido'] . "' class='btn btn-sm btn-view'>Ver</a>
-                            <a href='index.php?entity=pedido&action=edit&rol=0&id=" . $dato['id_detalle'] . "'
+                            <a href='index.php?entity=pedido&action=edit&rol=0&id=" . $dato['numero_pedido'] . "'
                             class='btn btn-sm btn-edit'>Modificar Estado</a>
                             </td>";
                         }

@@ -24,7 +24,7 @@ if (!isset($_SESSION['nombre'])) {
                         <path d="M6 15l6-6 6 6" />
                     </svg></span>
                 <span class="brand-name">tech<b>UP</b></span>
-                <span class="brand-tag">Panel del Usuario</span>
+                <span class="brand-tag">Panel del Pedidos</span>
             </a>
             <nav class="nav" aria-label="Secciones">
                 <a href="?entity=pedido&amp;action=show&amp;rol=1&amp;id=<?= $_SESSION["id"] ?>" class="is-active" aria-current="page">Pedidos</a>

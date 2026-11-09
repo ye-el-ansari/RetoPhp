@@ -19,23 +19,21 @@
 <body>
     <header class="topbar">
         <div class="topbar-inner">
-            <a class="brand" href="?entity=producto&amp;action=index" aria-label="techUP, inicio">
+            <a class="brand" href="?entity=producto&amp;action=index&rol=1" aria-label="techUP, inicio">
                 <span class="brand-mark" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#12151e" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg></span>
                 <span class="brand-name">tech<b>UP</b></span>
                 <span class="brand-tag">Panel de gestión</span>
             </a>
             <nav class="nav" aria-label="Secciones">
-            <a href="?entity=producto&amp;action=index">Productos</a>
-            <a href="?entity=pedido&amp;action=index" class="is-active" aria-current="page">Pedidos</a>
-            <a href="?entity=usuario&amp;action=index">Usuarios</a>
-            <a href="?entity=carrito&amp;action=index">Carrito</a>
+            <a href="?entity=pedido&amp;action=index&amp;rol=1&amp;id=<?= $_SESSION["id"] ?>" class="is-active" aria-current="page">Pedidos</a>
+                <a href="?entity=usuario&amp;action=show&amp;id=<?= $_SESSION["id"] ?>&amp;rol=1">Mi Cuenta</a>
             </nav>
-            <a class="logout" href="?entity=login&amp;action=index">Cerrar sesión. </a>
+            <a class="logout" href="?entity=login&amp;action=index&rol=1">Cerrar sesión. </a>
         </div>
     </header>
 
     <main class="page page-narrow">
-        <a href="?entity=pedido&action=index" class="back">← Volver a pedidos</a>
+        <a href="?entity=pedido&action=index&rol=1" class="back">← Volver a pedidos</a>
         <div class="page-head">
             <div>
                 <h1>Detalles del pedido</h1>
@@ -43,6 +41,7 @@
             </div>
         </div>
 
+        
         <section class="verPedido">
 
             <?php

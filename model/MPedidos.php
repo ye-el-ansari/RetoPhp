@@ -9,7 +9,7 @@ class MPedidos
         $this->data = array();
     }
 
-    public function getPedidoById($id)
+     public function getPedidoById($id)
     { {
             // Recojo todo lo que tenga el numero de pedido que le paso por parametro
 

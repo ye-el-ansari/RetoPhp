@@ -25,13 +25,11 @@ if (!isset($_SESSION['nombre'])) {
                         <path d="M6 15l6-6 6 6" />
                     </svg></span>
                 <span class="brand-name">tech<b>UP</b></span>
-                <span class="brand-tag">Panel de gestión</span>
+                <span class="brand-tag">Panel de edicion</span>
             </a>
             <nav class="nav" aria-label="Secciones">
-                <a href="?entity=producto&amp;action=index&rol=1">Productos</a>
-                <a href="?entity=pedido&amp;action=index&rol=1" class="is-active" aria-current="page">Pedidos</a>
-                <a href="?entity=usuario&amp;action=index&rol=1">Usuarios</a>
-                <a href="?entity=carrito&amp;action=index&rol=1">Carrito</a>
+                <a href="?entity=pedido&amp;action=index&amp;rol=1&amp;id=<?= $_SESSION["id"] ?>" class="is-active" aria-current="page">Pedidos</a>
+                <a href="?entity=usuario&amp;action=show&amp;id=<?= $_SESSION["id"] ?>&amp;rol=1">Mi Cuenta</a>
             </nav>
             <a class="logout" href="?entity=login&amp;action=index&rol=1">Cerrar sesión</a>
         </div>

@@ -26,8 +26,18 @@ class CPedido
         print_r($data);
         echo "</pre>"; */
 
-        $data = $this->model->getPedidoById($id);
-        require __DIR__ . "/../view/pedidos/VPedidoVer.php";
+        if ($rol === 0) {
+
+            $data = $this->model->getPedidoById($id);
+            require __DIR__ . "/../view/pedidos/VPedidoVerAdmin.php";
+
+        } else {
+
+            $data = $this->model->getPedidoById($id);
+            require __DIR__ . "/../view/pedidos/VPedidoVerCliente.php";
+        }
+
+
     }
 
     public function edit($id, $rol, $id_usuario)
@@ -37,14 +47,12 @@ class CPedido
 
 
 
-            $data = $this->model->getDetalleById($id);
+            $data = $this->model->getPedidoById($id);
             $pedido = $this->model->getPedido();
 
-            echo "<pre>";
-            print_r($data);
-            echo "</pre>";
-
             require_once __DIR__ . "/../view/pedidos/VPedidoModificarAdmin.php";
+
+
         } else {
 
             $data = $this->model->getDetalleById($id);
@@ -68,7 +76,7 @@ class CPedido
                 $id
             );
 
-            header("Location: index.php?entity=pedido&action=index");
+            header("Location: index.php?entity=pedido&action=index&rol=0");
             exit();
         } else {
 
@@ -83,7 +91,7 @@ class CPedido
                 $id
             );
 
-            header("Location: index.php?entity=pedido&action=index");
+            header("Location: index.php?entity=pedido&action=index&rol=1");
             exit();
         }
     }

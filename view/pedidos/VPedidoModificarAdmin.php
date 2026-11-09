@@ -38,7 +38,7 @@ if (!isset($_SESSION['nombre'])) {
 
     <main class="page page-narrow">
 
-        <a href="?entity=pedido&action=index" class="back">← Volver a pedidos</a>
+        <a href="?entity=pedido&action=index&rol=0" class="back">← Volver a pedidos</a>
 
         <div class="page-head">
             <div>
@@ -49,32 +49,32 @@ if (!isset($_SESSION['nombre'])) {
 
 
 
-        <section class="verPedido">
+         <section class="verPedido">
 
             <?php
 
             $total = 0;
-            echo "<p><strong>Nº de pedido: </strong> " . $data['numero_pedido'] . "</p>";
-            echo "<p><strong>Usuario: </strong> " . $data['usuario_nombre'] . "</p>";
-            echo "<p><strong>Estado: </strong> <span class='badge badge-" . $data['estado'] . "'>" . $data['estado'] . "</span></p>";
-            echo "<p><strong>Fecha: </strong> " . $data['fecha_pedido'] . "</p>";
+            echo "<p><strong>Nº de pedido: </strong> " . $data[0]['numero_pedido'] . "</p>";
+            echo "<p><strong>Usuario: </strong> " . $data[0]['usuario_nombre'] . "</p>";
+            echo "<p><strong>Estado: </strong> <span class='badge badge-" . $data[0]['estado'] . "'>" . $data[0]['estado'] . "</span></p>";
+            echo "<p><strong>Fecha: </strong> " . $data[0]['fecha_pedido'] . "</p>";
+            foreach ($data as $pedido) {
 
+                echo "<div>";
+                echo "<p><strong>Nombre del producto: </strong> " . $pedido['producto_nombre'] . "</p>";
 
-            echo "<div>";
-            echo "<p><strong>Nombre del producto: </strong> " . $data['producto_nombre'] . "</p>";
+                echo "<p><strong>Cantidad: </strong> " . $pedido['cantidad'] . "</p>";
 
-            echo "<p><strong>Cantidad: </strong> " . $data['cantidad'] . "</p>";
+                $precio_unitario = $pedido['precio_compra'] / $pedido['cantidad'];
 
-            $precio_unitario = $data['precio'] / $data['cantidad'];
+                echo "<p><strong>Precio: </strong> " . number_format($precio_unitario, 2) . "€</p>";
 
-            echo "<p><strong>Precio: </strong> " . number_format($precio_unitario, 2) . "€</p>";
+                echo "<p><strong>Subtotal: </strong> " . $pedido['precio_compra'] . "€</p>";
+                echo "</div>";
 
-            echo "<p><strong>Subtotal: </strong> " . $data['precio'] . "€</p>";
-            echo "</div>";
+                $total += $pedido['cantidad'] * $precio_unitario;
 
-            $total += $data['cantidad'] * $precio_unitario;
-
-
+            }
 
             echo "<p><strong>Total: </strong> " . $total . "€</p>";
 
@@ -86,25 +86,25 @@ if (!isset($_SESSION['nombre'])) {
         <?php
         echo '<br><br><div class="page-head">';
         echo '<div>';
-        echo "<h3>Estado del pedido: " . $data['estado'] . "</h1>";
+        echo "<h3>Estado del pedido: " . $data[0]['estado'] . "</h1>";
         echo '</div>';
         echo '</div>';
         ?>
 
-        <form method="post" action="index.php?entity=pedido&action=update&id=<?= $data['numero_pedido'] ?>"
+        <form method="post" action="index.php?entity=pedido&action=update&rol=0&id=<?= $data[0]['numero_pedido'] ?>"
             class="panel form-card">
             <div class="form-grid">
                 <div class="field">
                     <label for="estado" class="form-label">Estado</label>
                     <select name="estado" class="input">
-                        <option value="pendiente" <?= $data['estado'] == 'pendiente' ? 'selected' : '' ?>>Pendiente
+                        <option value="pendiente" <?= $data[0]['estado'] == 'pendiente' ? 'selected' : '' ?>>Pendiente
                         </option>
-                        <option value="confirmado" <?= $data['estado'] == 'confirmado' ? 'selected' : '' ?>>Confirmado
+                        <option value="confirmado" <?= $data[0]['estado'] == 'confirmado' ? 'selected' : '' ?>>Confirmado
                         </option>
-                        <option value="enviado" <?= $data['estado'] == 'enviado' ? 'selected' : '' ?>>Enviado</option>
-                        <option value="entregado" <?= $data['estado'] == 'entregado' ? 'selected' : '' ?>>Entregado
+                        <option value="enviado" <?= $data[0]['estado'] == 'enviado' ? 'selected' : '' ?>>Enviado</option>
+                        <option value="entregado" <?= $data[0]['estado'] == 'entregado' ? 'selected' : '' ?>>Entregado
                         </option>
-                        <option value="cancelado" <?= $data['estado'] == 'cancelado' ? 'selected' : '' ?>>Cancelado
+                        <option value="cancelado" <?= $data[0]['estado'] == 'cancelado' ? 'selected' : '' ?>>Cancelado
                         </option>
                     </select>
                 </div>
@@ -112,11 +112,9 @@ if (!isset($_SESSION['nombre'])) {
             </div>
             <div class="form-actions">
 
-                <a href="?entity=producto&action=index&rol=0" class="btn btn-secondary">Cancelar</a>
+                <a href="?entity=pedido&action=index" class="btn btn-secondary">Cancelar</a>
 
-                <a href="?entity=pedido&action=update&rol=0&id=" . $data['numero_pedido'] . class="btn"><button type="submit" class="btn btn-primary">Guardar cambios</button></a>
-
-
+                <button type="submit" class="btn btn-primary">Guardar cambios</button>
 
             </div>
 
