@@ -46,7 +46,7 @@ class CDestino
         // 2. Evaluamos qué quiere hacer el usuario
         switch ($action) {
             case 'index':
-                $controller->index();
+                $controller->index($id, $rol, $id_usuario);
                 break; //  El break evita que se ejecuten los siguientes casos
 
             case 'show':
@@ -69,12 +69,12 @@ class CDestino
                 break;
 
             case 'edit':
-                $controller->edit($id);
+                $controller->edit($id, $rol, $id_usuario);
                 break;
 
 
             case 'update':
-                $controller->update($id);
+                $controller->update($id, $rol, $id_usuario);
                 break;
             
 

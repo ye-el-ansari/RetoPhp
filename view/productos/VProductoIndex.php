@@ -19,15 +19,15 @@
 <body>
     <header class="topbar">
         <div class="topbar-inner">
-            <a class="brand" href="?entity=producto&amp;action=index" aria-label="techUP, inicio">
+            <a class="brand" href="?entity=producto&amp;action=index&rol=0" aria-label="techUP, inicio">
                 <span class="brand-mark" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#12151e" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg></span>
                 <span class="brand-name">tech<b>UP</b></span>
                 <span class="brand-tag">Panel de gestión</span>
             </a>
             <nav class="nav" aria-label="Secciones">
-            <a href="?entity=producto&amp;action=index" class="is-active" aria-current="page">Productos</a>
-            <a href="?entity=pedido&amp;action=index">Pedidos</a>
-            <a href="?entity=usuario&amp;action=index">Usuarios</a>
+            <a href="?entity=producto&amp;action=index&rol=0" class="is-active" aria-current="page">Productos</a>
+            <a href="?entity=pedido&amp;action=index&rol=0">Pedidos</a>
+            <a href="?entity=usuario&amp;action=index&rol=0">Usuarios</a>
             </nav>
             <span class="page-sub"> Hola  <?=$_SESSION["nombre"] ?></span>
             <a class="logout" href="?entity=login&amp;action=index">Cerrar sesión</a>

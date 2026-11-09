@@ -25,7 +25,7 @@ class CLogin
 
             $_SESSION["rol"] === 0
                 ? header("Location: index.php?entity=producto&action=index&rol=0")
-                : header("Location: index.php?entity=pedido&action=show&id=" . $_SESSION['id'] . "&rol=1");
+                : header("Location: index.php?entity=pedido&action=index&id=" . $_SESSION['id'] . "&rol=1");
             exit; //para detener la ejecucion
         } else {
             header("Location: index.php");

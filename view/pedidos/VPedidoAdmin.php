@@ -27,9 +27,9 @@ if (!isset($_SESSION['nombre'])) {
                 <span class="brand-tag">Panel de gestión</span>
             </a>
             <nav class="nav" aria-label="Secciones">
-                <a href="?entity=producto&amp;action=index">Productos</a>
-                <a href="?entity=pedido&amp;action=index" class="is-active" aria-current="page">Pedidos</a>
-                <a href="?entity=usuario&amp;action=index">Usuarios</a>
+                <a href="?entity=producto&amp;action=index&rol=0">Productos</a>
+                <a href="?entity=pedido&amp;action=index&rol=0" class="is-active" aria-current="page">Pedidos</a>
+                <a href="?entity=usuario&amp;action=index&rol=0">Usuarios</a>
                 
             </nav>
             <span class="page-sub"> Hola <?= $_SESSION["nombre"] ?></span>
@@ -37,6 +37,9 @@ if (!isset($_SESSION['nombre'])) {
         </div>
     </header>
 
+
+
+    
     <main class="page">
         <div class="page-head">
             <div>
@@ -79,7 +82,7 @@ if (!isset($_SESSION['nombre'])) {
                             echo "<td></td>"; // Estado vacío
                             echo "<td></td>"; // Fecha vacía
                             echo "<td class='actions'>
-                            <a href='index.php?entity=pedido&action=edit&id=" . $dato['id_detalle'] . "'
+                            <a href='index.php?entity=pedido&action=edit&rol=0&id=" . $dato['id_detalle'] . "'
                             class='btn btn-sm btn-edit'>Modificar Estado</a>
                             </td>"; // Acciones
                         } else {
@@ -93,7 +96,7 @@ if (!isset($_SESSION['nombre'])) {
                             echo "<td class='muted'>" . $dato['fecha_pedido'] . "</td>";
                             echo "<td class='actions'>
                             <a href='index.php?entity=pedido&rol=0&action=show&id=" . $dato['numero_pedido'] . "' class='btn btn-sm btn-view'>Ver</a>
-                            <a href='index.php?entity=pedido&action=edit&id=" . $dato['id_detalle'] . "'
+                            <a href='index.php?entity=pedido&action=edit&rol=0&id=" . $dato['id_detalle'] . "'
                             class='btn btn-sm btn-edit'>Modificar Estado</a>
                             </td>";
                         }

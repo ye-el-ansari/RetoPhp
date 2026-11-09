@@ -25,9 +25,9 @@
                 <span class="brand-tag">Panel de gestión</span>
             </a>
             <nav class="nav" aria-label="Secciones">
-            <a href="?entity=producto&amp;action=index">Productos</a>
-            <a href="?entity=pedido&amp;action=index">Pedidos</a>
-            <a href="?entity=usuario&amp;action=index" class="is-active" aria-current="page">Usuarios</a>
+            <a href="?entity=producto&amp;action=index&rol=0">Productos</a>
+            <a href="?entity=pedido&amp;action=index&rol=0">Pedidos</a>
+            <a href="?entity=usuario&amp;action=index&rol=0" class="is-active" aria-current="page">Usuarios</a>
             
             </nav>
              <span class="page-sub"> Hola  <?=$_SESSION["nombre"] ?></span>

@@ -25,7 +25,7 @@
                 <span class="brand-tag">Panel del Usuario</span>
             </a>
             <nav class="nav" aria-label="Secciones">
-             <a href="?entity=pedido&amp;action=show&amp;rol=1&amp;id=<?= $_SESSION["id"] ?>" class="is-active" aria-current="page">Pedidos</a>
+             <a href="?entity=pedido&amp;action=index&amp;rol=1&amp;id=<?= $_SESSION["id"] ?>" class="is-active" aria-current="page">Pedidos</a>
                 <a href="?entity=usuario&amp;action=show&amp;id=<?= $_SESSION["id"] ?>&amp;rol=1">Mi Cuenta</a>
             
             </nav>

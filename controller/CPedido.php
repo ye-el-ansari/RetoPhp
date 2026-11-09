@@ -10,47 +10,81 @@ class CPedido
     {
         $this->model = new MPedidos();
     }
-    public function index()
+    public function index($id, $rol, $id_usuario)
     {
-        $pedido = $this->model->getAll();
-        require_once __DIR__ . "/../view/pedidos/VPedidoIndex.php";
-    }
-
-    public function show($id, $rol,$id_usuario)
-    {
-        /* echo "<pre>";
-        print_r($data);
-        echo "</pre>"; */
         if ($rol === 0) {
-            $pedido = $this->model->getPedidoById($id);
-            require __DIR__ . "/../view/pedidos/VPedidoVer.php";
+            $pedido = $this->model->getAll();
+            require_once __DIR__ . "/../view/pedidos/VPedidoAdmin.php";
         } else {
             $pedido = $this->model->getpedidoUsuario($id_usuario);
-            require __DIR__ . "/../view/pedidos/VPedidoUsuario.php";
+            require __DIR__ . "/../view/pedidos/VPedidoCliente.php";
         }
     }
-
-    public function edit($id)
+    public function show($id, $rol, $id_usuario)
     {
-
-        $this->modelProducto = new MProductos;
-        $productos = $this->modelProducto->getAll();
-
-        $data = $this->model->getDetalleById($id);
-
-        require_once __DIR__ . "/../view/pedidos/VPedidoModificar.php";
-
         /* echo "<pre>";
         print_r($data);
         echo "</pre>"; */
+
+        $data = $this->model->getPedidoById($id);
+        require __DIR__ . "/../view/pedidos/VPedidoVer.php";
     }
-    function update($id)
+
+    public function edit($id, $rol, $id_usuario)
     {
-        $estado = isset($_POST["estado"]) ? $_POST["estado"] : "cancelado";
-        if ($this->model->edit($id, $estado)) {
-            $this->index();
-            exit;
+
+        if ($rol === 0) {
+
+
+
+            $data = $this->model->getDetalleById($id);
+            $pedido = $this->model->getPedido();
+
+            echo "<pre>";
+            print_r($data);
+            echo "</pre>";
+
+            require_once __DIR__ . "/../view/pedidos/VPedidoModificarAdmin.php";
+        } else {
+
+            $data = $this->model->getDetalleById($id);
+            $pedido = $this->model->getPedido();
+
+            require_once __DIR__ . "/../view/pedidos/VPedidoModificarCliente.php";
         }
-        require_once __DIR__ . "/../view/pedidos/VPedidoModificar.php";
+    }
+
+
+    function update($id, $rol, $id_usuario)
+    {
+
+        if ($rol === 0) {
+
+            $estado = isset($_POST['estado']) ? $_POST['estado'] : null;
+
+
+            $this->model->updatePedido(
+                $estado,
+                $id
+            );
+
+            header("Location: index.php?entity=pedido&action=index");
+            exit();
+        } else {
+
+            $cantidad = isset($_POST['cantidad']) ? $_POST['cantidad'] : null;
+            $precio = isset($_POST['precio']) ? $_POST['precio'] : null;
+
+
+
+            $this->model->updateCliente(
+                $cantidad,
+                $precio,
+                $id
+            );
+
+            header("Location: index.php?entity=pedido&action=index");
+            exit();
+        }
     }
 }
