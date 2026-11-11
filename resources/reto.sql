@@ -89,6 +89,7 @@ CREATE TABLE pedidos (
     fecha_pedido DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     estado ENUM(
         'pendiente',
+        'confirmado',
         'pagado',
         'enviado',
         'entregado',
