@@ -106,6 +106,7 @@ class CDestino
                 // Guardar los cambios de un registro (UPDATE)
                 $controller->update($id, $rol, $id_usuario);
                 break;
+                
             case "logout":
                 $controller->logout();
                 break;
@@ -131,7 +132,7 @@ class CDestino
 
             default:
                 // Si ponen una acción que no existe, los mandamos al listado por seguridad
-                if (!session_status() === PHP_SESSION_NONE) {
+                if (session_status() === PHP_SESSION_NONE) {
                     session_unset();
                     session_destroy();
                 }

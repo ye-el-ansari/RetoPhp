@@ -49,7 +49,7 @@ if (!isset($_SESSION['nombre'])) {
                     echo "[Cliente]";
                 }
                 ?></span>
-            <a class="logout" href="?entity=login&amp;">Cerrar sesión</a>
+            <a class="logout" href="?entity=login&&amp;">Cerrar sesión</a>
         </div>
     </header>
     <main class="page">
@@ -192,6 +192,7 @@ if (!isset($_SESSION['nombre'])) {
         </div>
 
     </main>
+    <?php require __DIR__ . '/../aviso.php'; ?>
 
 </body>
 

@@ -32,8 +32,9 @@
         // Primera (y única) fila encontrada como array asociativo
         $usuarioEncontrado = $resultado->fetch_assoc();
         
-        // Si existe el usuario y la contraseña coincide (strcmp devuelve 0 si son iguales)
-        if ($usuarioEncontrado && 0==strcmp($contrasena, $usuarioEncontrado['contrasenia'])) {
+        // Si existe el usuario y la contraseña coincide con el hash guardado en la BD
+        // (password_verify compara el texto escrito con el hash generado por password_hash)
+        if ($usuarioEncontrado && password_verify($contrasena, $usuarioEncontrado['contrasenia'])) {
 
             // Si todo coincide, devolvemos el array con los datos del usuario
             return $usuarioEncontrado;

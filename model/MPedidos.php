@@ -58,7 +58,7 @@ class MPedidos
     // Devuelve UNA línea de pedido (por id_detalle); se usa para que el cliente edite la cantidad
     public function getDetalleById($id)
     { {
-            // Recojo todo lo que tenga el numero de pedido que le paso por parametro
+            
 
             $consulta = $this->db->prepare("SELECT 
             detalles_pedido.id_producto,

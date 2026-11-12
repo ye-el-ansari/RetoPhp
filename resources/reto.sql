@@ -20,7 +20,7 @@ CREATE TABLE usuarios (
     id_usuario INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(80) NOT NULL,
     rol TINYINT NOT NULL COMMENT '0: Administrador, 1: Usuario',
-    contrasenia VARCHAR(80) NOT NULL,
+    contrasenia VARCHAR(255) NOT NULL COMMENT 'Hash generado con password_hash() (bcrypt, 60 caracteres)',
     apellidos VARCHAR(120) NOT NULL,
     email VARCHAR(150) NOT NULL UNIQUE,
     telefono VARCHAR(20),
@@ -140,15 +140,16 @@ CREATE TABLE detalles_pedido (
 
 -- ============================================
 -- INSERCIONES: USUARIOS (0: Admin, 1: Usuario)
+-- Todas las contraseñas son "1234", guardadas como hash bcrypt (password_hash)
 -- ============================================
 
 INSERT INTO usuarios
 (id_usuario, nombre, rol, contrasenia, apellidos, email, telefono)
 VALUES
-(1, 'Carlos', 0, '1234', 'Garcia Lopez', 'carlos@gmail.com', '600123456'), -- Administrador (sin pedidos)
-(2, 'Laura', 1, '1234', 'Martinez Perez', 'laura@gmail.com', '611234567'),   -- Usuario
-(3, 'Javier', 0, '1234', 'Sanchez Ruiz', 'javier@gmail.com', '622345678'),   -- Administrador (sin pedidos)
-(4, 'Ana', 1, '1234', 'Fernandez Diaz', 'ana@gmail.com', '633456789');       -- Usuario
+(1, 'Carlos', 0, '$2y$10$9Y73253vR39JqTF/3JIYpOEsrd19V76lGlSBL15aiYPRYpRgsFAzW', 'Garcia Lopez', 'carlos@gmail.com', '600123456'), -- Administrador (sin pedidos)
+(2, 'Laura', 1, '$2y$10$2uqeB5DyKFFGcZ1udvaaC.Nt2fgU5DUPdijg9XdjkMUWyFsbQN1Qm', 'Martinez Perez', 'laura@gmail.com', '611234567'),   -- Usuario
+(3, 'Javier', 0, '$2y$10$a8LSkixwpcguBVVmgaRJhOqkqZut4JjAfwjAV4bDRdzvQtg8b2E3a', 'Sanchez Ruiz', 'javier@gmail.com', '622345678'),   -- Administrador (sin pedidos)
+(4, 'Ana', 1, '$2y$10$KQg6aACgjuNZ78EJ4ClYgO8szUl6lnbbpQo9BbzLSRfcNg/yJ9Gvu', 'Fernandez Diaz', 'ana@gmail.com', '633456789');       -- Usuario
 
 
 -- ============================================

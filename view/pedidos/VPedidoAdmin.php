@@ -135,6 +135,7 @@ if (!isset($_SESSION['nombre'])) {
             </table>
         </div>
     </main>
+    <?php require __DIR__ . '/../aviso.php'; ?>
 </body>
 
 </html>

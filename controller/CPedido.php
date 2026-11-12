@@ -91,6 +91,9 @@ class CPedido
                 $id
             );
 
+            // Aviso que mostrará la vista del listado (view/aviso.php)
+            $_SESSION['aviso'] = "Estado del pedido actualizado correctamente.";
+
             header("Location: index.php?entity=pedido&action=index&rol=0");
             exit();
         } else {
@@ -106,6 +109,9 @@ class CPedido
                 $precio,
                 $id
             );
+
+            // Aviso que mostrará la vista del listado (view/aviso.php)
+            $_SESSION['aviso'] = "Línea del pedido modificada correctamente.";
 
             header("Location: index.php?entity=pedido&action=index&rol=1");
             exit();
@@ -125,6 +131,10 @@ class CPedido
         $pedido = $this->model->getPedidoPendiente($id_usuario);
         if (!empty($pedido)) { // si tiene productos dentro
             $this->model->destroy($id_pedido, $id_usuario);
+
+            // Aviso que mostrará la vista del listado (view/aviso.php)
+            $_SESSION['aviso'] = "Pedido eliminado correctamente.";
+
             header("Location: index.php?entity=pedido&action=index&rol=1");
             exit();
 
@@ -151,6 +161,9 @@ class CPedido
 
             // Eliminamos la linea del pedido
             $this->model->destroyLinea($id, $pedido['id_pedido'], $id_usuario);
+
+            // Aviso que mostrará la vista del carrito (view/aviso.php)
+            $_SESSION['aviso'] = "Producto eliminado del pedido correctamente.";
 
             // Volvemos al carrito
             header("Location: index.php?entity=pedido&action=carrito&rol=1");
@@ -213,6 +226,9 @@ class CPedido
 
             // Añadimos el producto al pedido
             $this->model->addProductoPedido($id_pedido, $id_producto, $cantidad);
+
+            // Aviso que mostrará la vista del carrito (view/aviso.php)
+            $_SESSION['aviso'] = "Producto añadido al pedido correctamente.";
         }
 
         // Recargamos el carrito
@@ -231,6 +247,10 @@ class CPedido
         $pedido = $this->model->getPedidoPendiente($id_usuario);
         if (!empty($pedido)) {
             $this->model->comprar($id_usuario);
+
+            // Aviso que mostrará la vista del listado (view/aviso.php)
+            $_SESSION['aviso'] = "Compra finalizada correctamente.";
+
             header("Location: index.php?entity=pedido&action=index&rol=1");
             exit();
 

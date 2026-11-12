@@ -48,7 +48,7 @@ class CLogin
     // Cierra la sesión del usuario
     public function logout()
     {
-         if (!session_status() === PHP_SESSION_NONE) {
+         if (session_status() === PHP_SESSION_NONE) {
               session_unset();    // 2. Vaciamos todas las variables 
             session_destroy();
     

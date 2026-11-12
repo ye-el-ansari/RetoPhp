@@ -90,7 +90,7 @@ if (!isset($_SESSION['nombre'])) {
                         echo "<td class='actions'>
                             <a href='?entity=producto&action=show&id=" . $dato['id_producto'] . "' class='btn btn-sm btn-view'>Ver</a>
                             <a href='?entity=producto&action=edit&id=" . $dato['id_producto'] . "' class='btn btn-sm btn-edit'>Modificar</a>
-                            <a href='?entity=producto&action=destroy&id=" . $dato['id_producto'] . "' class='btn btn-sm btn-delete'>Eliminar</a>
+                            <a href='?entity=producto&action=destroy&id=" . $dato['id_producto'] . "' class='btn btn-sm btn-delete' onclick=\"return confirm('¿Seguro que quieres eliminar este producto?');\">Eliminar</a>
                             </td>
                             </tr>";
                     }
@@ -99,6 +99,7 @@ if (!isset($_SESSION['nombre'])) {
             </table>
         </div>
     </main>
+    <?php require __DIR__ . '/../aviso.php'; ?>
 </body>
 
 </html>

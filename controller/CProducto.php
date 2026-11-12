@@ -65,6 +65,9 @@ class CProducto
         // Enviamos los datos al modelo para hacer los INSERT
         $this->model->store($nombre, $categoria, $marca, $modelo, $precio, $stock, $peso, $alto, $ancho, $profundidad);
 
+        // Aviso que mostrará la vista del listado (view/aviso.php)
+        $_SESSION['aviso'] = "Producto añadido correctamente.";
+
         // Volvemos al listado de productos
         header("Location: index.php?entity=producto&action=index");
         exit();
@@ -113,6 +116,9 @@ class CProducto
             $profundidad
         );
 
+        // Aviso que mostrará la vista del listado (view/aviso.php)
+        $_SESSION['aviso'] = "Producto modificado correctamente.";
+
         header("Location: index.php?entity=producto&action=index");
         exit();
     }
@@ -123,6 +129,10 @@ class CProducto
     {
 
         $this->model->delete($id);
+
+        // Aviso que mostrará la vista del listado (view/aviso.php)
+        $_SESSION['aviso'] = "Producto eliminado correctamente.";
+
         $this->index();
     }
 }
