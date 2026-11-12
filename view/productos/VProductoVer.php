@@ -1,4 +1,6 @@
 <?php
+    // VISTA detalle de un producto. Recibe $producto desde CProducto::show().
+    // Exige sesión iniciada; si no, redirige al login.
     if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -55,6 +57,7 @@
 
         <div class="panel detail detail-grid">
             <?php
+            // Pintamos cada dato del producto (alias definidos en la consulta de MProductos::getById)
             echo "<p><strong>ID Producto: </strong> " . $producto['productoId'] . "</p>";
             echo "<p><strong>Nombre: </strong> " . $producto['productoNombre'] . "</p>";
             echo "<p><strong>Categoría: </strong> " . $producto['productoCategoria'] . "</p>";

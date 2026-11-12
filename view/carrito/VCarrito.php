@@ -1,4 +1,7 @@
 <?php
+// VISTA del carrito del cliente. Recibe desde CPedido::carrito():
+//   $pedidoPendiente (cabecera del pedido), $pedido (sus líneas) y $productos (catálogo).
+// Exige sesión iniciada; si no, redirige al login.
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -65,6 +68,7 @@ if (!isset($_SESSION['nombre'])) {
 
         ?>
 
+        <!-- Tabla con las líneas del pedido pendiente -->
         <div class="panel table-wrap">
             <table class="table">
                 <thead>
@@ -80,6 +84,7 @@ if (!isset($_SESSION['nombre'])) {
                     <?php
                     $total = 0;
 
+                    // Recorremos las líneas: el subtotal es precio_compra y el precio unitario = subtotal / cantidad
                     foreach ($pedido as $dato) {
                         $subtotal = $dato['precio_compra'];
 
@@ -151,6 +156,7 @@ if (!isset($_SESSION['nombre'])) {
                 <tbody>
 
                     <?php
+                    // Una fila por producto del catálogo, con un mini formulario (cantidad + botón AÑADIR)
                     foreach ($productos as $producto) {
 
                         echo "<tr>";

@@ -1,14 +1,21 @@
 <?php
+// ============================================================
+// model/MPedidos.php  ·  MODELO de pedidos y carrito
+// Tablas: pedidos (cabecera) y detalles_pedido (líneas).
+// Un pedido en estado 'pendiente' funciona como CARRITO.
+// ============================================================
 class MPedidos
 {
     private $db;
     private $data;
+    // Abre la conexión a la BD y prepara el array de resultados
     public function __construct()
     {
         $this->db = ConexionBD::conectar();
         $this->data = array();
     }
 
+    // Devuelve todas las líneas de UN pedido (por número de pedido) con producto, usuario y estado
     public function getPedidoById($id)
     { {
             // Recojo todo lo que tenga el numero de pedido que le paso por parametro
@@ -48,6 +55,7 @@ class MPedidos
     }
 
 
+    // Devuelve UNA línea de pedido (por id_detalle); se usa para que el cliente edite la cantidad
     public function getDetalleById($id)
     { {
             // Recojo todo lo que tenga el numero de pedido que le paso por parametro
@@ -85,6 +93,7 @@ class MPedidos
     }
 
 
+    // Devuelve todas las líneas de TODOS los pedidos (vista del administrador), ordenadas por pedido
     public function getAll()
     {
         $consulta = $this->db->query("SELECT 
@@ -112,6 +121,7 @@ class MPedidos
 
 
     //NUEVO
+    // Devuelve las líneas de pedido de UN usuario (vista del cliente)
     function getpedidoUsuario($id_usuario)
     {
         $query = $this->db->prepare("SELECT 
@@ -136,6 +146,7 @@ class MPedidos
     }
 
 
+    // Devuelve la tabla pedidos completa (solo cabeceras, sin líneas)
     public function getPedido()
     {
         $consulta = $this->db->query("SELECT 
@@ -151,6 +162,7 @@ class MPedidos
         return $this->data;
     }
 
+    // El cliente modifica la cantidad y el precio total de una línea de su pedido
     public function updateCliente(
         $cantidad,
         $precio,
@@ -175,6 +187,7 @@ class MPedidos
     }
 
 
+    // El administrador cambia el estado de un pedido (pendiente, enviado, entregado...)
     public function updatePedido(
         $estado,
         $id
@@ -272,6 +285,7 @@ class MPedidos
 
 
 
+    // Añade un producto al pedido (carrito) guardando cantidad y precio_compra (precio x cantidad)
     public function addProductoPedido($id_pedido, $id_producto, $cantidad)
     {
         // Obtener precio del producto que vamos a añadir al carrito

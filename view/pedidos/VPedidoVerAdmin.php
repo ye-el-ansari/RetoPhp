@@ -1,4 +1,6 @@
 <?php
+    // VISTA detalle de un pedido (ADMINISTRADOR). Recibe $data (líneas del pedido) desde CPedido::show().
+    // Exige sesión iniciada; si no, redirige al login.
     if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -59,10 +61,12 @@ if (!isset($_SESSION['nombre'])) {
             <?php
 
                 $total = 0;
+                // Datos generales del pedido (se toman de la primera línea: $data[0])
                 echo "<p><strong>Nº de pedido: </strong> " . $data[0]['numero_pedido'] . "</p>";
                  echo "<p><strong>Usuario: </strong> " . $data[0]['usuario_nombre'] . "</p>";
                   echo "<p><strong>Estado: </strong> <span class='badge badge-" . $data[0]['estado'] . "'>" . $data[0]['estado'] . "</span></p>";
                   echo "<p><strong>Fecha: </strong> " . $data[0]['fecha_pedido'] . "</p>";
+            // Una tarjeta por cada línea (producto) del pedido
             foreach ($data as $pedido) {
 
                 echo "<div>";
@@ -70,6 +74,7 @@ if (!isset($_SESSION['nombre'])) {
                
                 echo "<p><strong>Cantidad: </strong> " . $pedido['cantidad'] . "</p>";
 
+                // precio unitario = subtotal / cantidad
                 $precio_unitario = $pedido['precio_compra'] /  $pedido['cantidad'];
 
                 echo "<p><strong>Precio: </strong> " . number_format($precio_unitario, 2)  . "€</p>";
@@ -77,6 +82,7 @@ if (!isset($_SESSION['nombre'])) {
                 echo "<p><strong>Subtotal: </strong> " . $pedido['precio_compra'] . "€</p>";
                 echo "</div>";
 
+                // Acumulamos el total del pedido
                 $total += $pedido['cantidad'] * $precio_unitario;
 
             }

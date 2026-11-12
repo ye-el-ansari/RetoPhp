@@ -1,4 +1,7 @@
 <?php
+// VISTA edición de un pedido (ADMINISTRADOR): permite cambiar el estado de envío.
+// Recibe $data (líneas del pedido) desde CPedido::edit() y envía el estado por POST a CPedido::update().
+// Exige sesión iniciada; si no, redirige al login.
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -69,10 +72,12 @@ if (!isset($_SESSION['nombre'])) {
 
 
 
+            // Resumen del pedido (datos generales tomados de la primera línea: $data[0])
             echo "<p><strong>Nº de pedido: </strong> " . $data[0]['numero_pedido'] . "</p>";
             echo "<p><strong>Usuario: </strong> " . $data[0]['usuario_nombre'] . "</p>";
             echo "<p><strong>Estado: </strong> <span class='badge badge-" . $data[0]['estado'] . "'>" . $data[0]['estado'] . "</span></p>";
             echo "<p><strong>Fecha: </strong> " . $data[0]['fecha_pedido'] . "</p>";
+            // Una tarjeta por cada línea (producto) del pedido
             foreach ($data as $pedido) {
 
                 echo "<div>";
@@ -80,6 +85,7 @@ if (!isset($_SESSION['nombre'])) {
 
                 echo "<p><strong>Cantidad: </strong> " . $pedido['cantidad'] . "</p>";
 
+                // precio unitario = subtotal / cantidad
                 $precio_unitario = $pedido['precio_compra'] / $pedido['cantidad'];
 
                 echo "<p><strong>Precio: </strong> " . number_format($precio_unitario, 2) . "€</p>";
@@ -87,6 +93,7 @@ if (!isset($_SESSION['nombre'])) {
                 echo "<p><strong>Subtotal: </strong> " . $pedido['precio_compra'] . "€</p>";
                 echo "</div>";
 
+                // Acumulamos el total del pedido
                 $total += $pedido['cantidad'] * $precio_unitario;
 
             }
@@ -99,6 +106,7 @@ if (!isset($_SESSION['nombre'])) {
 
 
         <?php
+        // Cabecera con el estado actual del pedido
         echo '<br><br><div class="page-head">';
         echo '<div>';
         echo "<h3>Estado del pedido: " . $data[0]['estado'] . "</h1>";
@@ -106,6 +114,7 @@ if (!isset($_SESSION['nombre'])) {
         echo '</div>';
         ?>
 
+        <!-- Formulario: el <select> marca como "selected" el estado actual; se envía a CPedido::update (rol 0) -->
         <form method="post" action="index.php?entity=pedido&action=update&rol=0&id=<?= $data[0]['numero_pedido'] ?>"
             class="panel form-card">
             <div class="form-grid">
@@ -114,7 +123,7 @@ if (!isset($_SESSION['nombre'])) {
                     <select name="estado" class="input">
                         <option value="pendiente" <?= $data[0]['estado'] == 'pendiente' ? 'selected' : '' ?>>Pendiente
                         </option>
-                         <option value="pendiente" <?= $data[0]['estado'] == 'pagado' ? 'selected' : '' ?>>Pagado
+                         <option value="pagado" <?= $data[0]['estado'] == 'pagado' ? 'selected' : '' ?>>Pagado
                         </option>
                         <option value="confirmado" <?= $data[0]['estado'] == 'confirmado' ? 'selected' : '' ?>>Confirmado
                         </option>

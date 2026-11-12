@@ -1,9 +1,15 @@
 <?php
+// ============================================================
+// controller/CPedido.php  ·  CONTROLADOR de pedidos y carrito
+// Distingue entre administrador (rol 0) y cliente (rol 1).
+// El "carrito" es un pedido en estado 'pendiente'.
+// ============================================================
 
 require_once __DIR__ . "/../model/MPedidos.php";
 require_once __DIR__ . "/../model/MProductos.php";
 class CPedido
 {
+    // Modelo de pedidos y modelo de productos (para el catálogo del carrito)
     private MPedidos $model;
     private MProductos $modelProducto;
     public function __construct()
@@ -11,17 +17,21 @@ class CPedido
         $this->model = new MPedidos();
         $this->modelProducto = new MProductos();
     }
+    // Listado de pedidos: el admin ve todos, el cliente solo los suyos
     public function index($id, $rol, $id_usuario)
     {
         if ($rol === 0) {
+            // Administrador: todos los pedidos
             $pedido = $this->model->getAll();
             require_once __DIR__ . "/../view/pedidos/VPedidoAdmin.php";
 
         } else {
+            // Cliente: solo los pedidos de su usuario
             $pedido = $this->model->getpedidoUsuario($id_usuario);
             require __DIR__ . "/../view/pedidos/VPedidoCliente.php";
         }
     }
+    // Detalle de un pedido (líneas, estado, total)
     public function show($id, $rol, $id_usuario)
     {
         /* echo "<pre>";
@@ -42,6 +52,7 @@ class CPedido
 
     }
 
+    // Formulario de edición: admin cambia el estado, cliente cambia la cantidad de una línea
     public function edit($id, $rol, $id_usuario)
     {
 
@@ -65,11 +76,13 @@ class CPedido
     }
 
 
+    // Guarda los cambios del formulario de edición
     function update($id, $rol, $id_usuario)
     {
 
         if ($rol === 0) {
 
+            // Admin: solo cambia el estado del pedido
             $estado = isset($_POST['estado']) ? $_POST['estado'] : null;
 
 
@@ -82,6 +95,7 @@ class CPedido
             exit();
         } else {
 
+            // Cliente: cambia cantidad y precio total de una línea del pedido
             $cantidad = isset($_POST['cantidad']) ? $_POST['cantidad'] : null;
             $precio = isset($_POST['precio']) ? $_POST['precio'] : null;
 
@@ -103,6 +117,7 @@ class CPedido
     // borra el pedido el cual sea PENDIENTE
     public function destroy()
     {
+        // Usuario logueado y pedido a eliminar (llega por POST desde el carrito)
         $id_usuario = $_SESSION['id'];
         $id_pedido = $_POST['id_pedido'];
 
@@ -125,6 +140,7 @@ class CPedido
 
 
     // FUNCIONES DEL CARRITO
+    // Muestra el carrito: pedido pendiente + sus líneas + catálogo para añadir
     public function carrito()
     {
         $id_usuario = $_SESSION['id'];
@@ -179,6 +195,7 @@ class CPedido
     }
 
 
+    // Finaliza la compra: cambia el estado del pedido pendiente
     public function comprar()
     {
         $id_usuario = $_SESSION['id'];

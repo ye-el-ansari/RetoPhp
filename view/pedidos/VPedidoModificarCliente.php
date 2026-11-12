@@ -1,4 +1,6 @@
 <?php
+// VISTA edición de una línea de pedido (CLIENTE). Recibe $data (una línea) desde CPedido::edit().
+// Envía cantidad y total por POST a CPedido::update(). Exige sesión iniciada.
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -55,12 +57,14 @@ if (!isset($_SESSION['nombre'])) {
             </div>
         </div>
 
+        <!-- El id de la línea (id_detalle) viaja en la URL hacia CPedido::update -->
         <form method="post" action="index.php?entity=pedido&action=update&rol=1&id=<?= $data['id_detalle'] ?>" class="panel form-card">
             <div class="form-grid">
                 <div class="field full">
                     <label for="producto">Producto</label>
 
-                    <?php echo "<input name='producto' id='producto' class='select' disabled required value='" . $data['producto_nombre'] . "'";
+                    <?php // El producto se muestra bloqueado (disabled): no se puede cambiar
+                    echo "<input name='producto' id='producto' class='select' disabled required value='" . $data['producto_nombre'] . "'";
 
 
 
@@ -79,6 +83,7 @@ if (!isset($_SESSION['nombre'])) {
                 <div class="field">
                     <label for="precio">Total del pedido</label>
                     <div class="input-unit">
+                        <!-- Campo de solo lectura: lo recalcula el JavaScript de abajo al cambiar la cantidad -->
                         <input name="precio" type="number" class="input" id="precio" value="<?= $data['precio'] ?>"
                             required readonly>
                         <span class="unit">€</span>
@@ -98,12 +103,15 @@ if (!isset($_SESSION['nombre'])) {
     <script>
         // JavaScript para actualizar el precio total en tiempo real
 
+        // Referencias a los campos cantidad y precio total
         const inputCantidad = document.getElementById('cantidad');
         const inputPrecio = document.getElementById('precio');
 
         // Guardamos el precio unitario original
+        // (precio total actual / cantidad actual)
         const precioUnitario = parseFloat(inputPrecio.value) / parseInt(inputCantidad.value);
 
+        // Cada vez que cambia la cantidad, recalculamos el total
         inputCantidad.addEventListener('change', function() {
 
             let cantidad = parseInt(this.value);

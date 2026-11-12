@@ -1,4 +1,7 @@
 <?php
+// VISTA "Mi Cuenta": muestra los datos personales del usuario logueado.
+// Recibe $usuario desde CUsuario::show().
+// Si no hay sesión iniciada, se redirige al login.
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -17,6 +20,7 @@ if (!isset($_SESSION['nombre'])) {
 </head>
 
 <body>
+    <!-- Barra superior: marca, navegación del cliente, nombre/rol y cierre de sesión -->
     <header class="topbar">
         <div class="topbar-inner">
                 <span class="brand-mark" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"
@@ -32,6 +36,7 @@ if (!isset($_SESSION['nombre'])) {
                 <a href="?entity=usuario&amp;action=show&amp;id=<?= $_SESSION["id"] ?>&amp;rol=1">Mi Cuenta</a>
 
             </nav>
+            <!-- Nombre del usuario y su rol guardados en la sesión -->
             <span class="page-sub">  <?= $_SESSION["nombre"] ?>
                 <?php
 
@@ -70,6 +75,7 @@ if (!isset($_SESSION['nombre'])) {
                 <tbody>
                     <?php
 
+                    // Recorremos el array $usuario y pintamos una fila con sus datos
                     foreach ($usuario as $datos) {
 
                         echo "<tr>";

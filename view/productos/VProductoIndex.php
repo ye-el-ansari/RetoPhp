@@ -1,9 +1,12 @@
 <?php
+// VISTA listado de productos (CRUD del administrador).
+// Recibe $productos desde CProducto::index(). Exige sesión iniciada.
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 if (!isset($_SESSION['nombre'])) {
     header("Location: ../../index.php");
+    exit();
 }
 ?>
 <!DOCTYPE html>
@@ -17,6 +20,7 @@ if (!isset($_SESSION['nombre'])) {
 </head>
 
 <body>
+    <!-- Barra superior del administrador -->
     <header class="topbar">
         <div class="topbar-inner">
                 <span class="brand-mark" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"
@@ -52,6 +56,7 @@ if (!isset($_SESSION['nombre'])) {
                 <h1>Productos</h1>
                 <p class="page-sub">Catálogo de la tienda.</p>
             </div>
+            <!-- Enlace al formulario de alta (CProducto::create) -->
             <a href="?entity=producto&action=create" class="btn btn-primary">Nuevo producto</a>
         </div>
 
@@ -71,6 +76,7 @@ if (!isset($_SESSION['nombre'])) {
                 </thead>
                 <tbody>
                     <?php
+                    // Una fila por producto con los botones Ver (show), Modificar (edit) y Eliminar (destroy)
                     foreach ($productos as $dato) {
                         echo "<tr>
                             <td class='muted'>" . $dato['id_producto'] . "</td>";

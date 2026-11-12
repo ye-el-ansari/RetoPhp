@@ -9,12 +9,17 @@ if (!isset($_SESSION['usuario'])) {
 }
 
 */
+// ============================================================
+// model/MProductos.php  ·  MODELO de productos
+// Gestiona las tablas productos y detalles_producto (relación 1:1).
+// ============================================================
 class MProductos
 {
 
 
     private $db;
     private $data;
+    // Abre la conexión a la BD y prepara el array donde se guardan los resultados
     public function __construct()
     {
         $this->db = ConexionBD::conectar();
@@ -22,9 +27,11 @@ class MProductos
     }
 
 
+    // Devuelve UN producto con sus detalles (peso y medidas) uniendo las dos tablas
     public function getById($id)
     {
         // Corrección: Se añaden las comillas correspondientes al string de la consulta SQL
+        // INNER JOIN une productos con detalles_producto por id_producto
         $consulta = $this->db->prepare("SELECT 
             productos.nombre as productoNombre, 
             productos.id_producto as productoId, 
@@ -42,6 +49,7 @@ class MProductos
         WHERE productos.id_producto = ?
     ");
 
+        // 'i' = el id es un entero
         $consulta->bind_param("i", $id);
         $consulta->execute();
 
@@ -58,12 +66,14 @@ class MProductos
     }
 
 
+    // Devuelve TODOS los productos (para el listado y el catálogo del carrito)
     public function getAll()
     {
 
         $consulta = $this->db->query("SELECT * FROM productos");
 
 
+        // Recorremos el resultado fila a fila y lo guardamos en $data
         while ($filas = $consulta->fetch_assoc()) {
 
             $this->data[] = $filas;
@@ -72,6 +82,7 @@ class MProductos
         return $this->data;
     }
 
+    // Elimina un producto por id (sus detalles se borran por ON DELETE CASCADE)
     public function delete($id)
     {
 
@@ -81,6 +92,7 @@ class MProductos
         $consulta->close();
     }
 
+    // Actualiza el producto y sus detalles (dos UPDATE, uno por tabla)
     public function update(
         $id,
         $nombre,
@@ -94,11 +106,13 @@ class MProductos
         $ancho,
         $profundidad
     ) {
+        // Tipos: s = string, d = decimal, i = entero -> 'ssssdii'
         $consulta = $this->db->prepare('UPDATE productos SET nombre = ?, categoria = ?, marca = ?, modelo = ?, precio = ?, stock = ? WHERE id_producto = ?');
         $consulta->bind_param('ssssdii', $nombre, $categoria, $marca, $modelo, $precio, $stock, $id);
         $consulta->execute();
 
 
+        // Segundo UPDATE: tabla de detalles (peso y medidas)
         $consultaDetalles = $this->db->prepare('UPDATE detalles_producto SET peso = ?, alto = ?, ancho = ?, profundidad = ? WHERE id_producto = ?');
         $consultaDetalles->bind_param('ddddi', $peso, $alto, $ancho, $profundidad, $id);
         $consultaDetalles->execute();   
@@ -109,6 +123,7 @@ class MProductos
 
 
 
+    // Inserta un producto nuevo: primero en productos y luego en detalles_producto
     public function store(
         $nombre,
         $categoria,
@@ -132,6 +147,7 @@ class MProductos
         $consulta->execute();
 
         // 2. Recuperar el id del producto insertado
+        // insert_id = id autogenerado (AUTO_INCREMENT) del último INSERT
         $id_producto = $this->db->insert_id;
         $consulta->close();
 
@@ -143,6 +159,7 @@ class MProductos
 
     }
 
+    // Inserta la fila 1:1 de detalles (peso y medidas) asociada al producto
     public function storeDetalles($id_producto, $peso, $alto, $ancho, $profundidad)
     {
         $consulta = $this->db->prepare(

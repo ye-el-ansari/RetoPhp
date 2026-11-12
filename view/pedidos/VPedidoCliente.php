@@ -1,4 +1,6 @@
 <?php
+// VISTA listado de pedidos del CLIENTE. Recibe $pedido desde CPedido::index() (rol 1).
+// Exige sesión iniciada; si no, redirige al login.
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -54,6 +56,7 @@ if (!isset($_SESSION['nombre'])) {
                 <h1>Pedidos</h1>
                 <p class="page-sub">Pedidos de los clientes y su estado.</p>
             </div>
+            <!-- Acceso al carrito (CPedido::carrito) -->
             <a href="?entity=pedido&action=carrito&rol=1" class="btn btn-primary">Mi carrito</a>
         </div>
 
@@ -77,9 +80,11 @@ if (!isset($_SESSION['nombre'])) {
                     $ultimo_pedido = null; // Variable para recordar el pedido anterior, empieza en null por que no hay pedido anterior al inicio
                     
 
+                    // Cada fila es una LÍNEA de pedido; las líneas del mismo pedido se agrupan visualmente
                     foreach ($pedido as $dato) {
 
                     echo "<tr>";
+                        // precio unitario = precio total de la línea / cantidad
                         $precio_unitario = $dato['precio_compra'] / $dato['cantidad'];
                         // Si el pedido actual es igual al anterior, dejamos la celda vacía
                         if ($dato['numero_pedido'] == $ultimo_pedido) {
@@ -95,6 +100,7 @@ if (!isset($_SESSION['nombre'])) {
                             echo "<td></td>"; // Fecha vacía
                             echo "<td class='actions'>";
 
+                            // Solo se puede modificar o eliminar una línea si el pedido está pendiente
                             if($dato['estado'] == 'pendiente'){
 
                                 echo "<a href='index.php?entity=pedido&action=edit&rol=1&id=" . $dato['id_detalle'] . "'

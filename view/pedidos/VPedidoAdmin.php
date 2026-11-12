@@ -1,4 +1,6 @@
 <?php
+// VISTA listado de TODOS los pedidos (ADMINISTRADOR). Recibe $pedido desde CPedido::index() (rol 0).
+// Exige sesión iniciada; si no, redirige al login.
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -82,8 +84,10 @@ if (!isset($_SESSION['nombre'])) {
                     $ultimo_pedido = null; // Variable para recordar el pedido anterior, empieza en null por que no hay pedido anterior al inicio
                     
 
+                    // Cada fila es una LÍNEA de pedido; las líneas del mismo pedido se agrupan visualmente
                     foreach ($pedido as $dato) {
                         echo "<tr>";
+                        // precio unitario = precio total de la línea / cantidad
                         $precio_unitario = $dato['precio_compra'] / $dato['cantidad'];
 
                         // Si el pedido actual es igual al anterior, dejamos la celda vacía
@@ -110,6 +114,7 @@ if (!isset($_SESSION['nombre'])) {
                             echo "<td class='num'>" . number_format($precio_unitario, 2) . " €</td>";
                             echo "<td><span class='badge badge-" . $dato['estado'] . "'>" . $dato['estado'] . "</span></td>";
                             echo "<td class='muted'>" . $dato['fecha_pedido'] . "</td>";
+                            // Botones del admin: Ver pedido y Modificar (cambiar estado)
                             echo "<td class='actions'>
                               <a href='index.php?entity=pedido&action=show&rol=0&id=" . $dato['numero_pedido'] . "' class='btn btn-sm btn-view'>Ver pedido</a> <br>";
                             echo "<a href='index.php?entity=pedido&action=edit&rol=0&id=" . $dato['numero_pedido'] . "'

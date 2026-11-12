@@ -1,4 +1,8 @@
 <?php
+// ============================================================
+// controller/CProducto.php  ·  CONTROLADOR del catálogo (CRUD de productos)
+// Recibe las peticiones, usa el modelo MProductos y carga la vista.
+// ============================================================
 
 require_once __DIR__ . "/../model/MProductos.php";
 
@@ -6,6 +10,7 @@ require_once __DIR__ . "/../model/MProductos.php";
 class CProducto
 {
 
+    // Modelo de productos (acceso a BD)
     private MProductos $model;
     /*private MArma $modelArma;
     private MEscudo $modelEscudo;
@@ -16,6 +21,7 @@ class CProducto
         $this->model = new MProductos();
     }
 
+    // READ (listado): obtiene todos los productos y muestra la tabla
     public function index()
     {
 
@@ -23,6 +29,7 @@ class CProducto
         $productos = $this->model->getAll();
         require_once __DIR__ . "/../view/productos/VProductoIndex.php";
     }
+    // READ (detalle): muestra un producto con sus medidas y peso
     public function show($id)
     {
 
@@ -30,6 +37,7 @@ class CProducto
         require_once __DIR__ . "/../view/productos/VProductoVer.php";
     }
 
+    // Muestra el formulario vacío para dar de alta un producto
     public function create()
     {
         require_once __DIR__ . "/../view/productos/VProductoCreate.php";
@@ -37,9 +45,11 @@ class CProducto
 
 
 
+    // CREATE: recoge los datos del formulario ($_POST) y los guarda en BD
     public function store()
     {
 
+        // Cada campo: si existe en $_POST se usa, si no, null
         $nombre = isset($_POST['nombre']) ? $_POST['nombre'] : null;
         $categoria = isset($_POST['categoria']) ? $_POST['categoria'] : null;
 
@@ -52,13 +62,16 @@ class CProducto
         $ancho = isset($_POST['ancho']) ? $_POST['ancho'] : null;
         $profundidad = isset($_POST['profundidad']) ? $_POST['profundidad'] : null;
 
+        // Enviamos los datos al modelo para hacer los INSERT
         $this->model->store($nombre, $categoria, $marca, $modelo, $precio, $stock, $peso, $alto, $ancho, $profundidad);
 
+        // Volvemos al listado de productos
         header("Location: index.php?entity=producto&action=index");
         exit();
     }
 
 
+    // Muestra el formulario de edición con los datos actuales del producto
     public function edit($id)
     {
 
@@ -67,6 +80,7 @@ class CProducto
     }
 
 
+    // UPDATE: recoge los datos modificados y actualiza el producto
     public function update($id)
     {
 
@@ -84,6 +98,7 @@ class CProducto
                 $ancho = isset($_POST['ancho']) ? $_POST['ancho'] : null;
                   $profundidad = isset($_POST['profundidad']) ? $_POST['profundidad'] : null;
 
+        // Pasamos id + todos los datos al modelo para ejecutar los UPDATE
         $this->model->update(
             $id,
             $nombre,
@@ -103,6 +118,7 @@ class CProducto
     }
 
 
+    // DELETE: elimina el producto y vuelve a mostrar el listado
     public function destroy($id)
     {
 

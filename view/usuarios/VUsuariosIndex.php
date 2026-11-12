@@ -1,4 +1,6 @@
 <?php
+// VISTA listado de usuarios (panel del administrador).
+// Recibe $usuario desde CUsuario::index(). Exige sesión iniciada.
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -17,6 +19,7 @@ if (!isset($_SESSION['nombre'])) {
 </head>
 
 <body>
+    <!-- Barra superior del administrador: Productos / Pedidos / Usuarios -->
     <header class="topbar">
         <div class="topbar-inner">
                 <span class="brand-mark" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"
@@ -70,6 +73,7 @@ if (!isset($_SESSION['nombre'])) {
                 <tbody>
                     <?php
 
+                    // Una fila por cada usuario; la columna Rol muestra una etiqueta (badge) según el valor
                     foreach ($usuario as $datos) {
 
                         echo "<tr>";

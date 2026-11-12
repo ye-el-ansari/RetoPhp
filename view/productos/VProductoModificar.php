@@ -1,4 +1,7 @@
 <?php
+    // VISTA formulario de EDICIÓN de producto. Recibe $producto desde CProducto::edit()
+    // y envía los cambios por POST a CProducto::update().
+    // Exige sesión iniciada; si no, redirige al login.
     if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -53,7 +56,9 @@
             </div>
         </div>
 
+        <!-- El id del producto viaja en la URL; cada campo se rellena (value) con los datos actuales -->
         <form method="post" action="index.php?entity=producto&amp;action=update&id=<?= $producto['productoId'] ?>" class="panel form-card">
+            <!-- Datos de la tabla productos -->
             <fieldset>
                 <legend>Información del producto</legend>
                 <div class="form-grid">
@@ -84,6 +89,7 @@
                 </div>
             </fieldset>
 
+            <!-- Datos de la tabla detalles_producto -->
             <fieldset>
                 <legend>Peso y dimensiones</legend>
                 <div class="form-grid">

@@ -1,4 +1,6 @@
 <?php
+    // VISTA formulario de ALTA de producto. Envía los datos por POST a CProducto::store().
+    // Exige sesión iniciada; si no, redirige al login.
     if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -40,7 +42,7 @@
                 }
                 ?>
             </span>
-            <a class="logout" href="?entity=login&amp;action=index">Cerrar sesión</a>
+            <a class="logout" href="?entity=logint&amp;action=index">Cerrar sesión</a>
         </div>
     </header>
 
@@ -53,7 +55,9 @@
             </div>
         </div>
 
+        <!-- Los atributos "name" de los campos son las claves que lee CProducto::store() en $_POST -->
         <form method="post" action="index.php?entity=producto&amp;action=store" class="panel form-card">
+            <!-- Datos de la tabla productos -->
             <fieldset>
                 <legend>Información del producto</legend>
                 <div class="form-grid">
@@ -84,6 +88,7 @@
                 </div>
             </fieldset>
 
+            <!-- Datos de la tabla detalles_producto (peso en gramos, medidas en mm) -->
             <fieldset>
                 <legend>Peso y dimensiones</legend>
                 <div class="form-grid">
@@ -106,6 +111,7 @@
                 </div>
             </fieldset>
 
+            <!-- Botones: cancelar vuelve al listado, enviar da de alta el producto -->
             <div class="form-actions">
                 <a href="?entity=producto&action=index" class="btn btn-secondary">Cancelar</a>
                 <button type="submit" class="btn btn-primary">Dar de alta</button>
