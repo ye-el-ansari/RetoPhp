@@ -205,7 +205,7 @@ class MPedidos
 
 
 
-     // borra el pedido el cual sea PENDIENTE de un usuario.
+    // borra el pedido el cual sea PENDIENTE de un usuario.
     public function destroy($id_pedido, $id_usuario)
     {
         $query = $this->db->prepare("DELETE FROM pedidos
@@ -285,27 +285,41 @@ class MPedidos
 
 
 
-    // Añade un producto al pedido (carrito) guardando cantidad y precio_compra (precio x cantidad)
+    // Añade un producto al pedido (carrito).
+// Si el producto ya existe, suma la cantidad y el precio.
     public function addProductoPedido($id_pedido, $id_producto, $cantidad)
     {
-        // Obtener precio del producto que vamos a añadir al carrito
+        // Obtener el precio del producto
         $query = $this->db->prepare("SELECT precio FROM productos WHERE id_producto = ?");
         $query->bind_param("i", $id_producto);
         $query->execute();
 
-        // recogemos el precio de ese producto
+        // Recoger el resultado de la consulta
         $result = $query->get_result();
         $producto = $result->fetch_assoc();
 
-        // Calculamos el total, la cantidad elegida por el usuario * el precio del producto que eligio.
+        // Calcular el precio total (precio unitario x cantidad)
         $precio = $producto['precio'] * $cantidad;
 
-        // Insertamos el producto, su cantidad, y precio de compra
+        // Insertar el producto en el pedido.
+        // Si ya existe (misma combinación de id_pedido e id_producto),
+        // en lugar de insertar otra fila, actualizamos la existente.
         $query = $this->db->prepare("INSERT INTO detalles_pedido
-        (id_pedido, id_producto, cantidad, precio_compra)
-        VALUES (?, ?, ?, ?)");
+    (id_pedido, id_producto, cantidad, precio_compra)
+    VALUES (?, ?, ?, ?)
 
+    ON DUPLICATE KEY UPDATE
+
+    -- Sumamos la cantidad nueva a la que ya existe
+    cantidad = cantidad + VALUES(cantidad),
+
+    -- Sumamos el precio nuevo al precio que ya estaba guardado
+    precio_compra = precio_compra + VALUES(precio_compra)");
+
+        // Asignar los valores a los parámetros
         $query->bind_param("iiid", $id_pedido, $id_producto, $cantidad, $precio);
+
+        // Ejecutar la consulta
         $query->execute();
     }
 
@@ -320,4 +334,5 @@ class MPedidos
         $query->bind_param("i", $id_usuario);
         $query->execute();
     }
+
 }
