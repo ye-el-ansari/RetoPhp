@@ -121,10 +121,10 @@ class CPedido
         $id_usuario = $_SESSION['id'];
         $id_pedido = $_POST['id_pedido'];
 
-         // valida que hayan productos dentro del pedido pendiente.
+        // valida que hayan productos dentro del pedido pendiente.
         $pedido = $this->model->getPedidoPendiente($id_usuario);
         if (!empty($pedido)) { // si tiene productos dentro
-             $this->model->destroy($id_pedido, $id_usuario);
+            $this->model->destroy($id_pedido, $id_usuario);
             header("Location: index.php?entity=pedido&action=index&rol=1");
             exit();
 
@@ -136,6 +136,32 @@ class CPedido
 
 
 
+    }
+
+    // Elimina una linea concreta de un pedido pendiente.
+    public function destroyLinea($id)
+    {
+        // Usuario logueado y linea que queremos eliminar
+        $id_usuario = $_SESSION['id'];
+
+        // Comprobamos que el usuario tenga un pedido pendiente
+        $pedido = $this->model->getPedidoPendienteUsuario($id_usuario);
+
+        if (!empty($pedido)) {
+
+            // Eliminamos la linea del pedido
+            $this->model->destroyLinea($id, $pedido['id_pedido'], $id_usuario);
+
+            // Volvemos al carrito
+            header("Location: index.php?entity=pedido&action=carrito&rol=1");
+            exit();
+
+        } else {
+
+            // Si no tiene pedido pendiente, volvemos al carrito
+            header("Location: index.php?entity=pedido&action=carrito&rol=1");
+            exit();
+        }
     }
 
 

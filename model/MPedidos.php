@@ -218,6 +218,22 @@ class MPedidos
     }
 
 
+    // Borra una linea concreta de un pedido pendiente de un usuario.
+    public function destroyLinea($id_detalle, $id_pedido, $id_usuario)
+    {
+        $query = $this->db->prepare("DELETE FROM detalles_pedido
+    WHERE id_detalle = ?
+    AND id_pedido = ?
+    AND id_pedido IN (
+        SELECT id_pedido FROM pedidos
+        WHERE id_usuario = ?
+        AND estado = 'pendiente'
+    )");
+
+        $query->bind_param("iii", $id_detalle, $id_pedido, $id_usuario);
+        $query->execute();
+    }
+
 
     // Funcion para crear un pedido con estado PENDIENTE y la fecha y hora de hoy 
     public function crearPedido($id_usuario)

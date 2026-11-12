@@ -91,6 +91,11 @@ class CDestino
                 $controller->destroy($id);
                 break;
 
+            case 'destroyLinea':
+                // Borrar un registro (DELETE)
+                $controller->destroyLinea($id);
+                break;
+
             case 'edit':
                 // Mostrar el formulario de edición
                 $controller->edit($id, $rol, $id_usuario);
@@ -101,15 +106,15 @@ class CDestino
                 // Guardar los cambios de un registro (UPDATE)
                 $controller->update($id, $rol, $id_usuario);
                 break;
-                case "logout":
-                    $controller->logout();
-                    break;
+            case "logout":
+                $controller->logout();
+                break;
 
 
 
 
 
-                // opciones del carrito 
+            // opciones del carrito 
             case 'carrito':
                 // Mostrar el carrito (pedido pendiente) del usuario
                 $controller->carrito();

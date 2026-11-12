@@ -105,7 +105,7 @@ if (!isset($_SESSION['nombre'])) {
 
                                 echo "<a href='index.php?entity=pedido&action=edit&rol=1&id=" . $dato['id_detalle'] . "'
                             class='btn btn-sm btn-edit'>Modificar</a> <br>
-                            <a href='index.php?entity=pedido&rol=1&action=destroy&id=" . $dato['id_detalle'] . "'
+                            <a href='index.php?entity=pedido&action=destroyLinea&rol=1&id=" . $dato['id_detalle'] . "'
                             class='btn btn-sm btn-delete'>Eliminar</a> 
                             
                             </td>";
@@ -130,7 +130,8 @@ if (!isset($_SESSION['nombre'])) {
                             if($dato['estado'] == 'pendiente'){
                                 echo "<a href='index.php?entity=pedido&action=edit&rol=1&id=" . $dato['id_detalle'] . "'
                             class='btn btn-sm btn-edit'>Modificar</a> <br>
-                            <a href='index.php?entity=pedido&rol=1&action=destroy&id=" . $dato['id_detalle'] . "'
+
+                            <a href='index.php?entity=pedido&action=destroyLinea&rol=1&id=" . $dato['id_detalle'] . "'
                             class='btn btn-sm btn-delete'>Eliminar</a> 
                             
                             </td>";

@@ -118,7 +118,8 @@ if (!isset($_SESSION['nombre'])) {
                 </a>
 
                 <!-- Formulario para eliminar el pedido, valida si existen productos dentro de este -->
-                <form method="POST" action="index.php?entity=pedido&action=destroy&rol=1">
+                <form method="POST" action="index.php?entity=pedido&action=destroy&rol=1"
+                    onsubmit="return confirm('¿Estás seguro de que quieres eliminar este pedido?');">
 
                     <input type="hidden" name="id_pedido" value="<?= $pedidoPendiente['id_pedido'] ?>">
 
