@@ -41,12 +41,6 @@
                 <button type="submit" class="btn btn-primary btn-block">Entrar</button>
             </form>
 
-            <!-- Ayuda con los usuarios de prueba -->
-            <div class="hint">
-                <p>Admins: Carlos, Javier</p>
-                <p>Usuarios: Laura , Ana</p>
-                <p>Pass: del 1 al 4</p>
-            </div>
         </div>
     </main>
 </body>
