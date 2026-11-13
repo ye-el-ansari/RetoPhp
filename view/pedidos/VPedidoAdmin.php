@@ -5,7 +5,7 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 if (!isset($_SESSION['nombre'])) {
-    header("Location: ../../index.php");
+    header("Location: index.php");
     exit();
 }
 ?>
@@ -48,8 +48,7 @@ if (!isset($_SESSION['nombre'])) {
                 }
                 ?>
             </span>
-            <a class="logout" href="?entity=login&amp;">Cerrar sesión</a>
-        </div>
+<a class="logout" href="?entity=login&amp;action=logout">Cerrar sesión</a>        </div>
     </header>
 
 

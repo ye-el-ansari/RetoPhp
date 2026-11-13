@@ -41,8 +41,7 @@ if (!isset($_SESSION['nombre'])) {
                 }
                 ?>
             </span>
-            <a class="logout" href="?entity=login&amp;action=index&rol=1">Cerrar sesión. </a>
-        </div>
+<a class="logout" href="?entity=login&amp;action=logout">Cerrar sesión</a>        </div>
     </header>
 
     <main class="page page-narrow">

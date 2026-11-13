@@ -132,12 +132,12 @@ class CDestino
 
             default:
                 // Si ponen una acción que no existe, los mandamos al listado por seguridad
-                if (session_status() === PHP_SESSION_NONE) {
+                if (session_status() !== PHP_SESSION_NONE) {
                     session_unset();
                     session_destroy();
                 }
 
-                header("Location: index.php?action=login");
+                header("Location: index.php");
                 break;
         }
     }

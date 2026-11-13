@@ -49,6 +49,7 @@ class CLogin
     public function logout()
     {
          if (session_status() === PHP_SESSION_NONE) {
+            $_SESSION=[];
               session_unset();    // 2. Vaciamos todas las variables 
             session_destroy();
     

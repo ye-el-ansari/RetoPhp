@@ -58,7 +58,7 @@ class MPedidos
     // Devuelve UNA línea de pedido (por id_detalle); se usa para que el cliente edite la cantidad
     public function getDetalleById($id)
     { {
-            
+
 
             $consulta = $this->db->prepare("SELECT 
             detalles_pedido.id_producto,
@@ -302,7 +302,7 @@ class MPedidos
 
 
     // Añade un producto al pedido (carrito).
-// Si el producto ya existe, suma la cantidad y el precio.
+    // Si el producto ya existe, suma la cantidad y el precio.
     public function addProductoPedido($id_pedido, $id_producto, $cantidad)
     {
         // Obtener el precio del producto
@@ -350,5 +350,4 @@ class MPedidos
         $query->bind_param("i", $id_usuario);
         $query->execute();
     }
-
 }
